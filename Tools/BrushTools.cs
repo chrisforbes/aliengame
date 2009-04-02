@@ -103,26 +103,4 @@ namespace AlienGame
 			}
 		}
 	}
-
-	static class RectangleExts
-	{
-		public static Rectangle Fix(this Rectangle r)
-		{
-			if (r.Width < 0)
-			{
-				r.X = r.X + r.Width;
-				r.Width = -r.Width;
-			}
-
-			if (r.Height < 0)
-			{
-				r.Y = r.Y + r.Height;
-				r.Height = -r.Height;
-			}
-
-			++r.Width;
-			++r.Height;
-			return r;
-		}
-	}
 }

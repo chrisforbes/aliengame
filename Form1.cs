@@ -12,6 +12,7 @@ namespace AlienGame
 {
 	public partial class Form1 : Form
 	{
+		public static Font font;
 		public Form1()
 		{
 			InitializeComponent();
@@ -21,11 +22,20 @@ namespace AlienGame
 
 			var tools = Assembly.GetExecutingAssembly().GetTypes()
 				.Where(t => t.BaseType == typeof(Tool))
-				.Select(t => Activator.CreateInstance(t));
+				.Select(t => Activator.CreateInstance(t))
+				.OrderBy(t => t.ToString());
 
 			comboBox1.Items.AddRange(tools.ToArray());
 			comboBox1.SelectedIndex = 0;
 			surface1.Tool = comboBox1.SelectedItem as Tool;
+
+			var actorClasses = Assembly.GetExecutingAssembly().GetTypes()
+				.Where(t => !t.IsAbstract && typeof(Actor).IsAssignableFrom(t));
+
+			comboBox2.Items.AddRange(actorClasses.ToArray());
+			comboBox2.SelectedIndex = 0;
+			ActorTool.NewActorType = comboBox2.SelectedItem as Type;
+			font = Font;
 		}
 
 		void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -48,16 +58,19 @@ namespace AlienGame
 			else
 				surface1.Options &= ~RenderOptions.Grid;
 		}
-	}
 
-	abstract class Tool
-	{
-		public abstract string Name { get; }
-		public virtual void DrawToolOverlay(Surface s, Graphics g, Model m) { }
-		public virtual bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb) { return false; }
-		public virtual bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb) { return false; }
-		public virtual bool OnMouseUp(Surface s, Model m, Point p, MouseButtons mb) { return false; }
+		void timer1_Tick(object sender, EventArgs e)
+		{
+			if (surface1.Tool.GetType() == typeof(SimulateTool))
+			{
+				surface1.Model.Tick();
+				surface1.Invalidate();
+			}
+		}
 
-		public override string ToString() { return Name; }
+		void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ActorTool.NewActorType = comboBox2.SelectedItem as Type;
+		}
 	}
 }

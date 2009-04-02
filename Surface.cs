@@ -91,6 +91,9 @@ namespace AlienGame
 					e.Graphics.DrawRectangle(brushPen, r);
 				}
 
+			foreach (var a in model.actors)
+				a.Draw(e.Graphics);
+
 			if (tool != null)
 				tool.DrawToolOverlay(this, e.Graphics, model);
 		}
@@ -114,64 +117,6 @@ namespace AlienGame
 			if (tool != null)
 				if (tool.OnMouseUp(this, model, e.Location, e.Button))
 					Invalidate();
-		}
-	}
-
-	class Model
-	{
-		public List<Brush> brushes = new List<Brush>();
-		public List<Door> doors = new List<Door>();
-
-		public bool HasWall(int x1, int y1, int x2, int y2)
-		{
-			return brushes.Any(
-				b => b.Bounds.Contains(x1, y1) || b.Bounds.Contains(x2, y2))
-				&& !brushes.Any(
-					b => b.Bounds.Contains(x1, y1)
-						&& b.Bounds.Contains(x2, y2))
-				&& null == HasDoor(x1, y1, x2, y2);
-		}
-
-		public bool HasFloor(int x, int y)
-		{
-			return brushes.Any(b => b.Bounds.Contains(x, y));
-		}
-
-		public Door HasDoor(int x1, int y1, int x2, int y2)
-		{
-			if (x1 != x2 && y1 != y2)
-				throw new ArgumentException("wtf; not adjacent cells!");
-
-			var x = Math.Max(x1, x2);
-			var y = Math.Max(y1, y2);
-
-			return doors.FirstOrDefault(
-				d => d.Position == new Point(x,y)
-					&& d.Kind == ((x1 == x2) ? 1 : 0));
-		}
-	}
-
-	class Brush
-	{
-		public Rectangle Bounds;
-
-		public Brush(Rectangle bounds)
-		{
-			Bounds = bounds;
-		}
-	}
-
-	class Door
-	{
-		public Point Position;
-		public int Kind;
-		public int State;
-
-		public Door(Point position, int kind, int state)
-		{
-			Position = position;
-			Kind = kind;
-			State = state;
 		}
 	}
 }
