@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace AlienGame
 {
 	abstract class Actor
 	{
-		public Point Position;
-		public int Direction;
-		public string Name = "";
+		[Browsable(true), Category("Actor")]
+		public Point Position { get; set; }
+		[Browsable(true), Category("Actor")]
+		public int Direction { get; set; }
+		[Browsable(true), Category("Actor")]
+		public string Name { get; set; }
+
+		protected Actor() { Name = ""; }
 
 		public virtual void Draw(Graphics g) { }
 		public virtual void Tick(Model m) { }

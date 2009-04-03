@@ -51,6 +51,12 @@
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Actors\Marker.cs" />
     <Compile Include="Actors\Mover.cs" />
+    <Compile Include="PropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertiesForm.Designer.cs">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ActorTool.cs" />
     <Compile Include="Brush.cs" />
     <Compile Include="Tools\BrushTools.cs" />
@@ -69,6 +75,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertiesForm.resx">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

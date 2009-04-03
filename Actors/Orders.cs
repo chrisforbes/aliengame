@@ -57,8 +57,7 @@ namespace AlienGame
 				fx += (ux / l) * speed;
 				fy += (uy / l) * speed;
 
-				a.Position.X += (int)fx;
-				a.Position.Y += (int)fy;
+				a.Position = new Point(a.Position.X + (int)fx, a.Position.Y + (int)fy);
 				fx -= (int)fx;
 				fy -= (int)fy;
 				return false;

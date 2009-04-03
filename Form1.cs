@@ -35,6 +35,7 @@ namespace AlienGame
 			comboBox2.Items.AddRange(actorClasses.ToArray());
 			comboBox2.SelectedIndex = 0;
 			ActorTool.NewActorType = comboBox2.SelectedItem as Type;
+			EditActorTool.Ui = new PropertiesForm(() => { model.SyncActorList(); surface1.Invalidate(); });
 			font = Font;
 		}
 
