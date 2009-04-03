@@ -11,9 +11,9 @@ namespace AlienGame
 	{
 		public abstract string Name { get; }
 		public virtual void DrawToolOverlay(Surface s, Graphics g, Model m) { }
-		public virtual bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb) { return false; }
-		public virtual bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb) { return false; }
-		public virtual bool OnMouseUp(Surface s, Model m, Point p, MouseButtons mb) { return false; }
+		public virtual bool OnMouseDown(Surface s, Model m, Point square, Point offset, MouseButtons mb) { return false; }
+		public virtual bool OnMouseMove(Surface s, Model m, Point square, Point offset, MouseButtons mb) { return false; }
+		public virtual bool OnMouseUp(Surface s, Model m, Point square, Point offset, MouseButtons mb) { return false; }
 
 		public override string ToString() { return Name; }
 	}

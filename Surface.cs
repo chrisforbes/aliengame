@@ -100,22 +100,30 @@ namespace AlienGame
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (tool != null)
-				if (tool.OnMouseDown(this, model, e.Location, e.Button))
+			var square = new Point( e.Location.X / 40, e.Location.Y / 40 );
+			var offset = new Point( e.Location.X % 40, e.Location.Y % 40 );
+
+			if( tool != null )
+				if( tool.OnMouseDown( this, model, square, offset, e.Button ) )
 					Invalidate();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
+			var square = new Point( e.Location.X / 40, e.Location.Y / 40 );
+			var offset = new Point( e.Location.X % 40, e.Location.Y % 40 );
+
 			if (tool != null)
-				if (tool.OnMouseMove(this, model, e.Location, e.Button))
+				if (tool.OnMouseMove(this, model, square, offset, e.Button))
 					Invalidate();
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			if (tool != null)
-				if (tool.OnMouseUp(this, model, e.Location, e.Button))
+			var square = new Point( e.Location.X / 40, e.Location.Y / 40 );
+			var offset = new Point( e.Location.X % 40, e.Location.Y % 40 );
+			if( tool != null )
+				if (tool.OnMouseUp(this, model, square, offset, e.Button))
 					Invalidate();
 		}
 	}

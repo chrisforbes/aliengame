@@ -19,14 +19,14 @@ namespace AlienGame
 
 		public override string Name { get { return "Create Brush"; } }
 
-		public override bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseMove( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			q = new Point((p.X) / 40, (p.Y) / 40);
+			q = square;
 			if (mb == MouseButtons.Left) b.Bounds = Rectangle.FromLTRB(sq.X, sq.Y, q.X, q.Y).Fix();
 			return true;
 		}
 
-		public override bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
 			if (mb == MouseButtons.Left)
 			{
@@ -37,7 +37,7 @@ namespace AlienGame
 			return true;
 		}
 
-		public override bool OnMouseUp(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseUp( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
 			b = null;
 			return true;
@@ -66,23 +66,21 @@ namespace AlienGame
 
 		public override string Name { get { return "Move Brush"; } }
 
-		public override bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseMove( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			var x = new Point(p.X / 40, p.Y / 40);
-
 			if (mb == MouseButtons.None)
-				b = m.brushes.LastOrDefault(a => a.Bounds.Contains(x));
+				b = m.brushes.LastOrDefault(a => a.Bounds.Contains(square));
 			else if (b != null)
-				b.Bounds.Offset(x.X - q.X, x.Y - q.Y);
+				b.Bounds.Offset( square.X - q.X, square.Y - q.Y );
 
-			q = x;
+			q = square;
 
 			return true;
 		}
 
-		public override bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			q = new Point(p.X / 40, p.Y / 40);
+			q = square;
 
 			if (mb == MouseButtons.Right && b != null)
 			{

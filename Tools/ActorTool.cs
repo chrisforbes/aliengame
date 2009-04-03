@@ -13,9 +13,9 @@ namespace AlienGame
 		Point q;
 		public static Type NewActorType;
 
-		public override bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseMove( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			q = new Point((p.X) / 40, (p.Y) / 40);
+			q = square;
 			return true;
 		}
 
@@ -25,7 +25,7 @@ namespace AlienGame
 			g.DrawRectangle(Pens.Green, z);
 		}
 
-		public override bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
 			var a = Activator.CreateInstance(NewActorType) as Actor;
 			a.Position.X = q.X * 40 + 20;

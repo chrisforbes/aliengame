@@ -31,18 +31,26 @@ namespace AlienGame
 					g.DrawRectangle(Pens.Violet, new Rectangle(q.X * 40, q.Y * 40 - 3, 40, 6));
 		}
 
-		public override bool OnMouseMove(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseMove( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			q = new Point((p.X) / 40, (p.Y) / 40);
-			var dx = (p.X + 20) % 20;
-			var dy = (p.Y + 20) % 20;
-			k = dx > dy ? 1 : 0;
+			q = square;
+			k = offset.X <= offset.Y ? 0 : 1;
+			if( offset.X >= offset.Y && offset.X >= 20 )
+			{
+				++q.X;
+				k ^= 1;
+			}
+			else if( offset.X <= offset.Y && offset.Y >= 20 )
+			{
+				++q.Y;
+				k ^= 1;
+			}
 
-			d = m.doors.FirstOrDefault(a => a.Position == q && a.Kind == k);
+			d = m.doors.FirstOrDefault( a => a.Position == q && a.Kind == k );
 			return true;
 		}
 
-		public override bool OnMouseDown(Surface s, Model m, Point p, MouseButtons mb)
+		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
 			if (mb == MouseButtons.Left)
 			{
