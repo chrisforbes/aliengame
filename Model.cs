@@ -10,7 +10,10 @@ namespace AlienGame
 	{
 		public List<Brush> brushes = new List<Brush>();
 		public List<Door> doors = new List<Door>();
-		public List<Actor> actors = new List<Actor>();
+		List<Actor> actors = new List<Actor>();
+
+		List<Actor> addedActors = new List<Actor>();
+		List<Actor> removedActors = new List<Actor>();
 
 		public bool HasWall(int x1, int y1, int x2, int y2)
 		{
@@ -44,6 +47,21 @@ namespace AlienGame
 		{
 			foreach (var a in actors)
 				a.Tick(this);
+
+			SyncActorList();
 		}
+
+		public void AddActor(Actor a) { addedActors.Add(a); }
+		public void RemoveActor(Actor a) { if (!removedActors.Contains(a)) removedActors.Add(a); }
+
+		public void SyncActorList()
+		{
+			actors.AddRange(addedActors);
+			actors.RemoveAll(a => removedActors.Contains(a));
+			addedActors.Clear();
+			removedActors.Clear();
+		}
+
+		public IEnumerable<Actor> Actors { get { return actors; } }
 	}
 }

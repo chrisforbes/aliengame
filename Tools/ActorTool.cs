@@ -30,7 +30,8 @@ namespace AlienGame
 			var a = Activator.CreateInstance(NewActorType) as Actor;
 			a.Position.X = q.X * 40 + 20;
 			a.Position.Y = q.Y * 40 + 20;
-			m.actors.Add(a);
+			m.AddActor(a);
+			m.SyncActorList();
 			return true;
 		}
 	}

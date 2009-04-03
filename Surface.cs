@@ -91,7 +91,7 @@ namespace AlienGame
 					e.Graphics.DrawRectangle(brushPen, r);
 				}
 
-			foreach (var a in model.actors)
+			foreach (var a in model.Actors)
 				a.Draw(e.Graphics);
 
 			if (tool != null)
