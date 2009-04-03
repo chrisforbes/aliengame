@@ -115,7 +115,10 @@ namespace AlienGame
 
 			if (tool != null)
 				if (tool.OnMouseMove(this, model, square, offset, e.Button))
+				{
 					Invalidate();
+					Update();
+				}
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
