@@ -37,5 +37,11 @@ namespace AlienGame
 			SetActor(propertyGrid1.SelectedObject as Actor);
 			onChange();
 		}
+
+		void PropertiesForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			e.Cancel = true;
+			Hide();
+		}
 	}
 }

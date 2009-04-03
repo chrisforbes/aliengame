@@ -51,6 +51,7 @@
 			this.MinimizeBox = false;
 			this.Name = "PropertiesForm";
 			this.Text = "PropertiesForm";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PropertiesForm_FormClosing);
 			this.ResumeLayout(false);
 
 		}
