@@ -39,13 +39,14 @@ namespace AlienGame
 	{
 		public override string Name { get { return "Edit Actors"; } }
 		public static PropertiesForm Ui;
+		Actor selected;
 
 		public override bool OnMouseDown(Surface s, Model m, Point square, Point offset, MouseButtons mb)
 		{
 			var q = square;
 			if (mb == MouseButtons.Left)
 			{
-				Ui.SetActor( ActorAt( m, q ));
+				Ui.SetActor( selected = ActorAt( m, q ));
 				return true;
 			}
 
@@ -55,6 +56,18 @@ namespace AlienGame
 				if (a != null)
 					m.RemoveActor( a );
 				m.SyncActorList();
+				return true;
+			}
+
+			return false;
+		}
+
+		public override bool OnMouseMove(Surface s, Model m, Point square, Point offset, MouseButtons mb)
+		{
+			if (selected != null && mb == MouseButtons.Left)
+			{
+				selected.Position = new Point(40 * square.X + 20, 40 * square.Y + 20);
+				if (Ui.Visible) Ui.SetActor(selected);	// refresh the view in the property editor
 				return true;
 			}
 
