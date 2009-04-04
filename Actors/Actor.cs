@@ -19,6 +19,7 @@ namespace AlienGame
 		protected Actor() { Name = ""; }
 
 		public virtual void Draw(Graphics g) { }
+		public virtual void DrawOverlay(Graphics g) { }
 		public virtual void Tick(Model m) { }
 	}
 }

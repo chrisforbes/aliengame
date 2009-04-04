@@ -39,25 +39,16 @@ namespace AlienGame
 			font = Font;
 		}
 
-		void checkBox1_CheckedChanged(object sender, EventArgs e)
+		void ChangeRenderOption(object sender, EventArgs e)
 		{
-			if (checkBox1.Checked) 
-				surface1.Options |= RenderOptions.Brushes;
-			else
-				surface1.Options &= ~RenderOptions.Brushes;
+			var bit = (RenderOptions)int.Parse((string)(sender as Control).Tag);
+			if ((sender as CheckBox).Checked) surface1.Options |= bit;
+			else surface1.Options &= ~bit;
 		}
 
 		void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			surface1.Tool = comboBox1.SelectedItem as Tool;
-		}
-
-		void checkBox2_CheckedChanged(object sender, EventArgs e)
-		{
-			if (checkBox2.Checked)
-				surface1.Options |= RenderOptions.Grid;
-			else
-				surface1.Options &= ~RenderOptions.Grid;
 		}
 
 		void timer1_Tick(object sender, EventArgs e)

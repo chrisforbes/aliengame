@@ -14,6 +14,7 @@ namespace AlienGame
 	{
 		Brushes = 1,
 		Grid = 2,
+		ActorDebug = 4,
 	}
 
 	class Surface : Control
@@ -93,6 +94,11 @@ namespace AlienGame
 
 			foreach (var a in model.Actors)
 				a.Draw(e.Graphics);
+
+
+			if (0 != (options & RenderOptions.ActorDebug))
+				foreach (var a in model.Actors)
+					a.DrawOverlay(e.Graphics);
 
 			if (tool != null)
 				tool.DrawToolOverlay(this, e.Graphics, model);

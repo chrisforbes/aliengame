@@ -35,6 +35,7 @@
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.surface1 = new AlienGame.Surface();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// comboBox1
@@ -52,24 +53,26 @@
 			this.checkBox1.AutoSize = true;
 			this.checkBox1.Checked = true;
 			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Location = new System.Drawing.Point(280, 14);
+			this.checkBox1.Location = new System.Drawing.Point(183, 14);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(94, 17);
 			this.checkBox1.TabIndex = 2;
+			this.checkBox1.Tag = "1";
 			this.checkBox1.Text = "Show Brushes";
 			this.checkBox1.UseVisualStyleBackColor = true;
-			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.ChangeRenderOption);
 			// 
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(380, 14);
+			this.checkBox2.Location = new System.Drawing.Point(283, 14);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(75, 17);
 			this.checkBox2.TabIndex = 2;
+			this.checkBox2.Tag = "2";
 			this.checkBox2.Text = "Show Grid";
 			this.checkBox2.UseVisualStyleBackColor = true;
-			this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+			this.checkBox2.CheckedChanged += new System.EventHandler(this.ChangeRenderOption);
 			// 
 			// timer1
 			// 
@@ -80,7 +83,7 @@
 			// 
 			this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox2.FormattingEnabled = true;
-			this.comboBox2.Location = new System.Drawing.Point(461, 10);
+			this.comboBox2.Location = new System.Drawing.Point(461, 12);
 			this.comboBox2.Name = "comboBox2";
 			this.comboBox2.Size = new System.Drawing.Size(285, 21);
 			this.comboBox2.TabIndex = 3;
@@ -101,12 +104,25 @@
 			this.surface1.Text = "surface1";
 			this.surface1.Tool = null;
 			// 
+			// checkBox3
+			// 
+			this.checkBox3.AutoSize = true;
+			this.checkBox3.Location = new System.Drawing.Point(364, 14);
+			this.checkBox3.Name = "checkBox3";
+			this.checkBox3.Size = new System.Drawing.Size(88, 17);
+			this.checkBox3.TabIndex = 2;
+			this.checkBox3.Tag = "4";
+			this.checkBox3.Text = "Show Debug";
+			this.checkBox3.UseVisualStyleBackColor = true;
+			this.checkBox3.CheckedChanged += new System.EventHandler(this.ChangeRenderOption);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(758, 609);
 			this.Controls.Add(this.comboBox2);
+			this.Controls.Add(this.checkBox3);
 			this.Controls.Add(this.checkBox2);
 			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.comboBox1);
@@ -126,6 +142,7 @@
 		private System.Windows.Forms.CheckBox checkBox2;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.ComboBox comboBox2;
+		private System.Windows.Forms.CheckBox checkBox3;
 	}
 }
 
