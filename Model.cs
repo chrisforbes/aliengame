@@ -8,12 +8,19 @@ namespace AlienGame
 {
 	class Model
 	{
-		public List<Brush> brushes = new List<Brush>();
+		List<Brush> brushes = new List<Brush>();
 		public List<Door> doors = new List<Door>();
 		List<Actor> actors = new List<Actor>();
 
 		List<Actor> addedActors = new List<Actor>();
 		List<Actor> removedActors = new List<Actor>();
+
+		List<Room> rooms = new List<Room>();
+
+		public void AddBrush(Brush b) { brushes.Add(b); rooms = Room.MakeRooms(this); }
+		public void RemoveBrush(Brush b) { brushes.Remove(b); rooms = Room.MakeRooms(this); }
+
+		public IEnumerable<Brush> Brushes { get { return brushes; } }
 
 		public bool HasWall(int x1, int y1, int x2, int y2)
 		{
@@ -67,6 +74,12 @@ namespace AlienGame
 		public IEnumerable<Actor> ActorsAt(Point p)
 		{
 			return Actors.Where(a => p == new Point(a.Position.X / 40, a.Position.Y / 40));
+		}
+
+		public Room GetRoomAt(Point p)
+		{
+			return rooms.FirstOrDefault(
+				r => r.brushes.Any(b => b.Bounds.Contains(p)));
 		}
 	}
 }

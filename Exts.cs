@@ -31,5 +31,25 @@ namespace AlienGame
 		{
 			t.RemoveAll(x => toRemove.Contains(x));
 		}
+
+		public static Rectangle ToPointRect(this Point p)
+		{
+			return new Rectangle(p.X, p.Y, 1, 1);
+		}
+
+		public static Rectangle SquaresToPixels(this Rectangle r)
+		{
+			return new Rectangle(r.Left * 40, r.Top * 40, r.Width * 40, r.Height * 40);
+		}
+
+		public static Point SquareToCenter(this Point p)
+		{
+			return new Point(p.X * 40 + 20, p.Y * 40 + 20);
+		}
+
+		public static Color WithAlpha(this Color c, int alpha)
+		{
+			return Color.FromArgb(alpha, c);
+		}
 	}
 }

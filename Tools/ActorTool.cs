@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AlienGame
+namespace AlienGame.Tools
 {
 	class ActorTool : Tool
 	{
@@ -21,63 +21,17 @@ namespace AlienGame
 
 		public override void DrawToolOverlay(Surface s, Graphics g, Model m)
 		{
-			var z = new Rectangle(q.X * 40, q.Y * 40, 40, 40);
+			var z = q.ToPointRect().SquaresToPixels();
 			g.DrawRectangle(Pens.Green, z);
 		}
 
 		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
 			var a = Activator.CreateInstance(NewActorType) as Actor;
-			a.Position = new Point(q.X * 40 + 20, q.Y * 40 + 20);
+			a.Position = q.SquareToCenter();
 			m.AddActor(a);
 			m.SyncActorList();
 			return true;
-		}
-	}
-
-	class EditActorTool : Tool
-	{
-		public override string Name { get { return "Edit Actors"; } }
-		public static PropertiesForm Ui;
-		Actor selected;
-
-		public override bool OnMouseDown(Surface s, Model m, Point square, Point offset, MouseButtons mb)
-		{
-			var q = square;
-			if (mb == MouseButtons.Left)
-			{
-				Ui.SetActor( selected = ActorAt( m, q ));
-				return true;
-			}
-
-			if (mb == MouseButtons.Right)
-			{
-				var a = ActorAt(m, q );
-				if (a != null)
-					m.RemoveActor( a );
-				m.SyncActorList();
-				return true;
-			}
-
-			return false;
-		}
-
-		public override bool OnMouseMove(Surface s, Model m, Point square, Point offset, MouseButtons mb)
-		{
-			if (selected != null && mb == MouseButtons.Left)
-			{
-				selected.Position = new Point(40 * square.X + 20, 40 * square.Y + 20);
-				if (Ui.Visible) Ui.SetActor(selected);	// refresh the view in the property editor
-				return true;
-			}
-
-			return false;
-		}
-
-		static Actor ActorAt(Model m, Point p)
-		{
-			return m.Actors.FirstOrDefault(
-				a => p == new Point(a.Position.X / 40, a.Position.Y / 40));
 		}
 	}
 }

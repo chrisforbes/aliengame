@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AlienGame
+namespace AlienGame.Tools
 {
 	class DoorTool : Tool
 	{

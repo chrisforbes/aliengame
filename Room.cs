@@ -16,10 +16,10 @@ namespace AlienGame
 			return brushes.Any(b => b.Bounds.IntersectsWith(r));
 		}
 
-		public static List<Room> MakeRooms(List<Brush> brushes)
+		public static List<Room> MakeRooms(Model m)
 		{
 			var rooms = new List<Room>();
-			foreach (var b in brushes)
+			foreach (var b in m.Brushes)
 			{
 				var rr = rooms.Where(r => r.IntersectsWith(b.Bounds)).ToList();
 				switch (rr.Count)

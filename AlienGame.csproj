@@ -60,7 +60,7 @@
     </Compile>
     <Compile Include="Tools\ActorTool.cs" />
     <Compile Include="Brush.cs" />
-    <Compile Include="Tools\BrushTools.cs" />
+    <Compile Include="Tools\CreateBrushTool.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Tools\DoorTool.cs" />
     <Compile Include="Exts.cs" />
@@ -99,6 +99,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Room.cs" />
+    <Compile Include="Tools\EditActorTool.cs" />
+    <Compile Include="Tools\MoveBrushTool.cs" />
     <Compile Include="Tools\SimulateTool.cs" />
     <Compile Include="Surface.cs">
       <SubType>Component</SubType>

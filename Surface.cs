@@ -22,7 +22,7 @@ namespace AlienGame
 		Model model;
 		Tool tool;
 		RenderOptions options = RenderOptions.Brushes;
-		DBrush brushBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
+		DBrush brushBrush = new SolidBrush(Color.Gray.WithAlpha(128));
 		Pen brushPen = Pens.Silver;
 		Pen wallPen = new Pen(Color.Blue, 3.0f);
 		DBrush floorBrush = new SolidBrush(Color.FromArgb(40, 40, 40));
@@ -61,8 +61,7 @@ namespace AlienGame
 			for (var i = 0; i < ClientSize.Width / 40; i++)
 				for (var j = 0; j < ClientSize.Height / 40; j++)
 					if (model.HasFloor(i, j))
-						e.Graphics.FillRectangle(floorBrush,
-							i * 40, j * 40, 40, 40);
+						e.Graphics.FillRectangle(floorBrush,new Point(i,j).ToPointRect().SquaresToPixels());
 
 			for( var i = 0; i < ClientSize.Width / 40; i++ )
 				for (var j = 0; j < ClientSize.Height / 40; j++)
@@ -84,17 +83,15 @@ namespace AlienGame
 							40, 7);
 
 			if (0 != (options & RenderOptions.Brushes))
-				foreach (var b in model.brushes)
+				foreach (var b in model.Brushes)
 				{
-					var r = new Rectangle(b.Bounds.Left * 40, b.Bounds.Top * 40, 
-						b.Bounds.Width * 40, b.Bounds.Height * 40);
+					var r = b.Bounds.SquaresToPixels();
 					e.Graphics.FillRectangle(brushBrush, r);
 					e.Graphics.DrawRectangle(brushPen, r);
 				}
 
 			foreach (var a in model.Actors)
 				a.Draw(e.Graphics);
-
 
 			if (0 != (options & RenderOptions.ActorDebug))
 				foreach (var a in model.Actors)

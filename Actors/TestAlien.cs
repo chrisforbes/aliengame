@@ -31,9 +31,6 @@ namespace AlienGame.Actors
 
 		public IEnumerable<Order> PlanPathTo(Point p)
 		{
-			// todo: use some A*-fu
-			// or possibly some hiererachical-fu
-
 			var a = new Point(Position.X / 40, Position.Y / 40);
 			while (a != p)
 			{
