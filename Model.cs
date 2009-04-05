@@ -63,5 +63,10 @@ namespace AlienGame
 		}
 
 		public IEnumerable<Actor> Actors { get { return actors; } }
+
+		public IEnumerable<Actor> ActorsAt(Point p)
+		{
+			return Actors.Where(a => p == new Point(a.Position.X / 40, a.Position.Y / 40));
+		}
 	}
 }

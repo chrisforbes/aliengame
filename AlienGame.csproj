@@ -51,6 +51,7 @@
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Actors\Marker.cs" />
     <Compile Include="Actors\Mover.cs" />
+    <Compile Include="Actors\TestAlien.cs" />
     <Compile Include="PropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
