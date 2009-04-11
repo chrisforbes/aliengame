@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Xml;
 
 namespace AlienGame
 {
@@ -50,6 +51,16 @@ namespace AlienGame
 		public static Color WithAlpha(this Color c, int alpha)
 		{
 			return Color.FromArgb(alpha, c);
+		}
+
+		public static void WriteAttribute(this XmlWriter w, string name, string value)
+		{
+			w.WriteAttributeString(name, value);
+		}
+
+		public static void WriteAttribute(this XmlWriter w, string name, int value)
+		{
+			w.WriteAttributeString(name, value.ToString());
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Xml;
 
 namespace AlienGame
 {
@@ -80,6 +81,19 @@ namespace AlienGame
 		{
 			return rooms.FirstOrDefault(
 				r => r.brushes.Any(b => b.Bounds.Contains(p)));
+		}
+
+		public void Save(XmlWriter w)
+		{
+			SyncActorList();
+
+			w.WriteStartElement("model");
+
+			foreach (var b in brushes) b.Save(w);
+			foreach (var d in doors) d.Save(w);
+			foreach (var a in actors) a.Save(w);
+
+			w.WriteEndElement();
 		}
 	}
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using AlienGame.Tools;
+using System.Xml;
 
 namespace AlienGame
 {
@@ -64,6 +65,24 @@ namespace AlienGame
 		void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ActorTool.NewActorType = comboBox2.SelectedItem as Type;
+		}
+
+		void Save(object sender, EventArgs e)
+		{
+			var sfd = new SaveFileDialog() 
+			{ 
+				RestoreDirectory = true, 
+				DefaultExt = ".ags", 
+				Filter = "Alien Game Scenario (*.ags)|*.ags",
+			};
+
+			if (sfd.ShowDialog() == DialogResult.OK) 
+			{
+				var w = XmlWriter.Create(sfd.FileName,
+					new XmlWriterSettings() { Indent = true });
+				surface1.Model.Save(w);
+				w.Close();
+			}
 		}
 	}
 }
