@@ -30,17 +30,26 @@ namespace AlienGame.Actors
 			this.SetOrders(PlanPathTo(targetSquare));
 		}
 
-		public IEnumerable<Order> PlanPathTo(Point p)
+		public IEnumerable<Order> PlanPathTo(Point to)
 		{
-			var a = new Point(Position.X / 40, Position.Y / 40);
-			while (a != p)
-			{
-				var da = p.X - a.X;
-				var db = p.Y - a.Y;
+			var from = new Point( Position.X / 40, Position.Y / 40 );
+			var pf = Pathfinder.Instance;
 
-				a.Offset(Math.Sign(da), Math.Sign(db));
-				yield return Orders.Walk(new Point(a.X * 40 + 20, a.Y * 40 + 20), 4);
+			var path = pf.FindPath( from, to ).ToList();
+			for( int i = path.Count - 1 ; i >= 0 ; i-- )
+			{
+				var walkTo = new Point( path[ i ].X * 40 + 20, path[ i ].Y * 40 + 20 );
+				yield return Orders.Walk( walkTo, 6 );
 			}
+			
+			//while (a != p)
+			//{
+			//    var da = p.X - a.X;
+			//    var db = p.Y - a.Y;
+
+			//    a.Offset(Math.Sign(da), Math.Sign(db));
+			//    yield return Orders.Walk(new Point(a.X * 40 + 20, a.Y * 40 + 20), 4);
+			//}
 		}
 
 		public TestAlien() : base() { }

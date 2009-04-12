@@ -77,6 +77,11 @@ namespace AlienGame
 			return Actors.Where(a => p == new Point(a.Position.X / 40, a.Position.Y / 40));
 		}
 
+		public IEnumerable<Brush> GetBrushesAt( Point p )
+		{
+			return brushes.Where( x => x.Bounds.Contains( p ) );
+		}
+
 		public Room GetRoomAt(Point p)
 		{
 			return rooms.FirstOrDefault(
@@ -96,9 +101,13 @@ namespace AlienGame
 			w.WriteEndElement();
 		}
 
-		public Model() { }
+		public Model()
+		{
+			Pathfinder.Instance = new Pathfinder( this );
+		}
 
 		public Model(XmlDocument doc)
+			: this()
 		{
 			// NB: actor loading is different, because the actual type of the resulting object varies.
 
