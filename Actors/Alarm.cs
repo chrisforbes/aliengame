@@ -35,12 +35,15 @@ namespace AlienGame.Actors
 
 		public override void Use(Model m, Actor usedBy)
 		{
-			if (!triggered)
+			if (!(usedBy is Guard) && !triggered)	// food turns the alarm on. this also allows chaining.
 			{
 				triggered = true;
 				foreach( var a in Actor.FindTargets(m, Target) )
 					a.Use(m, this);
 			}
+
+			if (usedBy is Guard && triggered)	// guard turns the alarm off
+				triggered = false;
 		}
 	}
 }

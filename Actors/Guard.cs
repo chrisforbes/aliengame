@@ -34,7 +34,12 @@ namespace AlienGame.Actors
 		public override void Use(Model m, Actor user)
 		{
 			// we've just got a tip about an alien at `user`.
-			SetOrders(PlanPathTo(m, user.Position.ToSquare()));
+			SetOrders(PlanPathTo(m, user.Position.ToSquare()).Concat(
+				new Order[] 
+				{
+					Orders.Use((Alarm)user)
+				}));
+
 			state = AiState.RespondToAlarm;
 
 			// todo: use a different planner, or override it for spotting an alien!

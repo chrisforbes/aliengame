@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="4" top="4" right="7" bottom="8" />
+  <brush left="9" top="4" right="12" bottom="8" />
+  <brush left="5" top="1" right="6" bottom="5" />
+  <brush left="10" top="1" right="11" bottom="5" />
+  <brush left="5" top="1" right="11" bottom="2" />
+  <brush left="7" top="0" right="9" bottom="2" />
+  <brush left="1" top="1" right="6" bottom="2" />
+  <brush left="1" top="1" right="2" bottom="6" />
+  <actor class="AlienGame.Actors.GuardSpawner" x="300" y="20" dir="0" name="spawn" />
+  <actor class="AlienGame.Actors.Alarm" x="220" y="300" dir="0" name="spawn" target="spawn" />
+  <actor class="AlienGame.Actors.Alarm" x="420" y="300" dir="0" name="spawn" target="spawn" />
+  <actor class="AlienGame.Actors.Food" x="220" y="260" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="420" y="260" dir="0" name="" />
+  <actor class="AlienGame.Actors.TestAlien" x="60" y="220" dir="6" name="" />
+</model>
