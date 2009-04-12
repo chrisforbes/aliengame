@@ -74,6 +74,15 @@ using AlienGame.Actors;
 						// got eaten!
 						// todo: some animation bs
 						m.RemoveActor(f);
+						
+						// alert all the other dudes!
+						var otherFoods = m.GetRoomAt(a.Position.ToSquare()).Actors
+							.Where(b => b.GetType() == typeof(Food))
+							.Cast<Food>();
+
+						foreach (var x in otherFoods)
+							x.Panic(m);
+
 						return true;
 					}
 					else
@@ -81,6 +90,15 @@ using AlienGame.Actors;
 						((IOrderTarget)a).AcceptOrder(m, f.Position.ToSquare());
 						return true;
 					}
+				};
+		}
+
+		public static Order Use(Alarm b)
+		{
+			return (a, m) =>
+				{
+					b.Use(m, a);
+					return true;
 				};
 		}
 	}

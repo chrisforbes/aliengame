@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace AlienGame.Actors
 {
+	using Order = Func<Actor, Model, bool>;
+
 	class Food : Mover
 	{
 		public override void Draw(Graphics g)
@@ -18,5 +20,20 @@ namespace AlienGame.Actors
 
 		public Food() : base() { }
 		public Food(XmlElement e) : base(e) { }
+
+		public void Panic( Model m )
+		{
+			// try to find a panic button in this room
+			var room = m.GetRoomAt(Position.ToSquare());
+			var button = room.Actors
+				.Where(a => a.GetType() == typeof(Alarm))
+				.Cast<Alarm>().FirstOrDefault();
+
+			if (button != null)
+				SetOrders(PlanPathTo(m, button.Position.ToSquare())
+					.Concat(new Order[] { 
+						Orders.Face(button.Direction, 1 ),
+						Orders.Use(button) }));
+		}
 	}
 }

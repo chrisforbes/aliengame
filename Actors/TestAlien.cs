@@ -30,26 +30,13 @@ namespace AlienGame.Actors
 				.Where(a => a.GetType() == typeof(Food))
 				.Cast<Food>().FirstOrDefault();
 
-			if( food == null )
-				this.SetOrders( PlanPathTo( m, targetSquare ) );
+			if (food == null)
+				this.SetOrders(PlanPathTo(m, targetSquare));
 			else
-				this.SetOrders( PlanToEat( m, food, targetSquare ) );
+				this.SetOrders(PlanToEat(m, food, targetSquare));
 		}
 
-		public IEnumerable<Order> PlanPathTo( Model m, Point to)
-		{
-			var from = new Point( Position.X / 40, Position.Y / 40 );
-			var pf = new Pathfinder( m );
-
-			var path = pf.FindPath( from, to ).ToList();
-			for( int i = path.Count - 1 ; i >= 0 ; i-- )
-			{
-				var walkTo = new Point( path[ i ].X * 40 + 20, path[ i ].Y * 40 + 20 );
-				yield return Orders.Walk( walkTo, 6 );
-			}
-		}
-
-		public IEnumerable<Order> PlanToEat( Model m, Food f, Point to)
+		public IEnumerable<Order> PlanToEat(Model m, Food f, Point to)
 		{
 			return PlanPathTo(m, to).Concat(new Order[] { Orders.Eat(f) });
 		}

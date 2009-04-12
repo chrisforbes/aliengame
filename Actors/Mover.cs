@@ -7,6 +7,7 @@ using System.Xml;
 namespace AlienGame.Actors
 {
 	using Order = Func<Actor, Model, bool>;
+	using System.Drawing;
 
 	abstract class Mover : Actor
 	{
@@ -26,5 +27,18 @@ namespace AlienGame.Actors
 
 		public Mover() : base() { }
 		public Mover(XmlElement e) : base(e) { }
+
+		public IEnumerable<Order> PlanPathTo(Model m, Point to)
+		{
+			var from = Position.ToSquare();
+			var pf = new Pathfinder(m);
+
+			var path = pf.FindPath(from, to).ToList();
+			for (int i = path.Count - 1; i >= 0; i--)
+			{
+				var walkTo = path[i].SquareToCenter();
+				yield return Orders.Walk(walkTo, 6);
+			}
+		}
 	}
 }

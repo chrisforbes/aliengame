@@ -9,8 +9,9 @@ namespace AlienGame
 	class Room
 	{
 		public List<Brush> brushes = new List<Brush>();
+		readonly Model model;
 
-		public Room(Brush firstBrush) { brushes.Add(firstBrush); }
+		public Room(Model m, Brush firstBrush) { brushes.Add(firstBrush); model = m; }
 		public bool IntersectsWith(Rectangle r)
 		{
 			return brushes.Any(b => b.Bounds.IntersectsWith(r));
@@ -25,7 +26,7 @@ namespace AlienGame
 				switch (rr.Count)
 				{
 					case 0:
-						rooms.Add(new Room(b));
+						rooms.Add(new Room(m, b));
 						break;
 					case 1:
 						rr[0].brushes.Add(b);
@@ -40,6 +41,15 @@ namespace AlienGame
 			}
 
 			return rooms;
+		}
+
+		public IEnumerable<Actor> Actors
+		{
+			get
+			{
+				return model.Actors.Where(
+					a => this.IntersectsWith(a.Position.ToSquare().ToPointRect()));
+			}
 		}
 	}
 }
