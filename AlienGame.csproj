@@ -55,6 +55,7 @@
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Actors\Alarm.cs" />
     <Compile Include="Actors\Food.cs" />
+    <Compile Include="Actors\Guard.cs" />
     <Compile Include="Actors\Marker.cs" />
     <Compile Include="Actors\Mover.cs" />
     <Compile Include="Actors\GuardSpawner.cs" />
