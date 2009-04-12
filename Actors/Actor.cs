@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.ComponentModel;
-using System.Xml;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Reflection;
+using System.Xml;
 
 namespace AlienGame
 {
@@ -21,7 +21,7 @@ namespace AlienGame
 		protected Actor() { Name = ""; }
 
 		public virtual void Draw(Graphics g) { }
-		public virtual void DrawOverlay(Graphics g) { }
+		public virtual void DrawOverlay(Model m, Graphics g) { }
 		public virtual void Tick(Model m) { }
 		public virtual void Use(Model m, Actor user) { }
 
@@ -57,10 +57,11 @@ namespace AlienGame
 			return (Actor)ctor.Invoke(new object[] { e });
 		}
 
-		public static void UseTargets(Model m, Actor user, string name)
+		protected static Pen arrowPen = new Pen(Color.Orange) { EndCap = LineCap.ArrowAnchor };
+
+		public static IEnumerable<Actor> FindTargets(Model m, string name)
 		{
-			foreach (var a in m.Actors.Where(x => x.Name == name))
-				a.Use(m, user);
+			return m.Actors.Where(x => x.Name == name);
 		}
 
 		public static int MakeDirection(Point from, Point to, int def)
@@ -77,6 +78,19 @@ namespace AlienGame
 		{
 			g.FillPie(visionBrush, new Rectangle(Position.X - 20, Position.Y - 20, 40, 40),
 				Direction * 45 - 45, 90);
+		}
+
+		protected void DrawBasicActor(Graphics g, Pen p)
+		{
+			g.DrawRectangle(p, Position.X - 10, Position.Y - 10, 20, 20);
+			g.DrawString(GetType().Name + "\n" + Name, Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
+		}
+
+		protected void DrawPointActor(Graphics g, Pen p)
+		{
+			g.DrawLine(p, Position.X - 10, Position.Y, Position.X + 10, Position.Y);
+			g.DrawLine(p, Position.X, Position.Y - 10, Position.X, Position.Y + 10);
+			g.DrawString(GetType().Name + "\n" + Name, Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
 		}
 
 		public IEnumerable<Actor> GetVisibleActors(Model m)

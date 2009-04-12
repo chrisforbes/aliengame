@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, Model, bool>;
 	using System.Drawing;
+	using Order = Func<Actor, Model, bool>;
 
 	abstract class Mover : Actor
 	{

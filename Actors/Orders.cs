@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
+using System.Linq;
+using AlienGame.Actors;
 
 namespace AlienGame
 {
 	using Order = Func<Actor, Model, bool>;
-using AlienGame.Actors;
 
 	static class Orders
 	{

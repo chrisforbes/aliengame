@@ -60,6 +60,7 @@
     <Compile Include="Actors\Mover.cs" />
     <Compile Include="Actors\GuardSpawner.cs" />
     <Compile Include="Actors\TestAlien.cs" />
+    <Compile Include="Actors\Waypoint.cs" />
     <Compile Include="Pathfinder.cs" />
     <Compile Include="PropertiesForm.cs">
       <SubType>Form</SubType>

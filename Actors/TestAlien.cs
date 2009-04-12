@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
+using System.Linq;
 using System.Xml;
 
 namespace AlienGame.Actors
@@ -18,13 +17,8 @@ namespace AlienGame.Actors
 	{
 		public override void Draw(Graphics g)
 		{
-			g.DrawRectangle(Pens.Blue,
-				Position.X - 10, Position.Y - 10, 20, 20);
-
 			DrawDirection(g);
-
-			g.DrawString("TestAlien\n" + Name, 
-				Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
+			DrawBasicActor(g, Pens.Blue);
 		}
 
 		public void AcceptOrder(Model m, Point targetSquare)

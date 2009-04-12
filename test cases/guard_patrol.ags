@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="4" top="4" right="14" bottom="8" />
+  <actor class="AlienGame.Actors.Waypoint" x="180" y="180" dir="0" name="w0" target="w1" />
+  <actor class="AlienGame.Actors.Waypoint" x="540" y="180" dir="0" name="w1" target="w2" />
+  <actor class="AlienGame.Actors.Waypoint" x="540" y="300" dir="0" name="w2" target="w3" />
+  <actor class="AlienGame.Actors.Waypoint" x="180" y="300" dir="0" name="w3" target="w0" />
+  <actor class="AlienGame.Actors.Guard" x="340" y="180" dir="0" name="" target="w1" />
+</model>
