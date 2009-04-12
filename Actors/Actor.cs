@@ -78,5 +78,19 @@ namespace AlienGame
 			g.FillPie(visionBrush, new Rectangle(Position.X - 20, Position.Y - 20, 40, 40),
 				Direction * 45 - 45, 90);
 		}
+
+		public IEnumerable<Actor> GetVisibleActors(Model m)
+		{
+			// just actors in this room!
+			return m.GetRoomAt(Position.ToSquare()).Actors
+				.Where(a => CanSee(a));
+		}
+
+		public bool CanSee(Actor other)
+		{
+			// todo: real occlusion! this is just a cone test
+			var dir = MakeDirection(Position.ToSquare(), other.Position.ToSquare(), Direction);
+			return (dir == Direction || (dir + 1) % 8 == Direction || (dir + 7) % 8 == Direction);
+		}
 	}
 }

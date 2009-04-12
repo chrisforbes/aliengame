@@ -22,6 +22,15 @@ namespace AlienGame.Actors
 		public Food() : base() { }
 		public Food(XmlElement e) : base(e) { }
 
+		bool panicking;
+
+		public override void Tick(Model m)
+		{
+			base.Tick(m);
+			if (GetVisibleActors(m).Any(a => a.GetType() == typeof(TestAlien)))
+				Panic(m);
+		}
+
 		public void Panic( Model m )
 		{
 			// try to find a panic button in this room
@@ -35,6 +44,10 @@ namespace AlienGame.Actors
 					.Concat(new Order[] { 
 						Orders.Face(button.Direction, 1 ),
 						Orders.Use(button) }));
+			else
+				throw new NotImplementedException("there's no button, but i want to run to one!");
+
+			panicking = true;
 		}
 	}
 }

@@ -6,8 +6,8 @@
   <brush left="12" top="5" right="16" bottom="11" />
   <brush left="6" top="10" right="9" bottom="14" />
   <actor class="AlienGame.Actors.Alarm" x="140" y="220" dir="0" name="" target="test" />
-  <actor class="AlienGame.Actors.Food" x="180" y="380" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="180" y="380" dir="5" name="" />
   <actor class="AlienGame.Actors.GuardSpawner" x="580" y="220" dir="0" name="test" />
   <actor class="AlienGame.Actors.TestAlien" x="260" y="540" dir="0" name="" />
-  <actor class="AlienGame.Actors.Food" x="140" y="380" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="140" y="380" dir="6" name="" />
 </model>
