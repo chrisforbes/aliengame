@@ -86,6 +86,16 @@ namespace AlienGame
 			{
 				var k = queue.Pop();
 				var nodeInfo = seen[ k.Location ];
+				if( k.Location == to )
+				{
+					yield return k.Location;
+					while( nodeInfo.Second != from )
+					{
+						yield return nodeInfo.Second;
+						nodeInfo = seen[ nodeInfo.Second ];
+					}
+					yield break;
+				}
 				if( k.DistanceSoFar > nodeInfo.First )
 					continue;
 				if( k.DistanceSoFar < nodeInfo.First )
@@ -93,17 +103,6 @@ namespace AlienGame
 
 				foreach( var node in FindPathWithinBrush( k.Location, to ) )
 				{
-					if( node == to )
-					{
-						yield return node;
-						yield return k.Location;
-						while( nodeInfo.Second != from )
-						{
-							yield return nodeInfo.Second;
-							seen.TryGetValue( nodeInfo.Second, out nodeInfo );
-						}
-						yield break;
-					}
 					var dist = Distance( k.Location, node ) + k.DistanceSoFar;
 					if( seen.TryGetValue( node, out nodeInfo ) )
 					{
