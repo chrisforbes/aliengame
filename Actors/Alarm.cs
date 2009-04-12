@@ -6,6 +6,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Xml;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace AlienGame.Actors
 {
@@ -26,7 +27,7 @@ namespace AlienGame.Actors
 		}
 
 		public Alarm() : base() { Target = ""; }
-		public Alarm( XmlElement e ) : base(e) {}
+		public Alarm(XmlElement e) : base(e) { Target = e.GetAttribute("target"); }
 
 		protected override void SaveAttributes(XmlWriter w)
 		{
@@ -36,7 +37,11 @@ namespace AlienGame.Actors
 
 		public void Use(Model m, Actor usedBy)
 		{
-			triggered = true;
+			if (!triggered)
+			{
+				triggered = true;
+				Actor.UseTargets(m, this, Target);
+			}
 		}
 	}
 }

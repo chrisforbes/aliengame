@@ -23,6 +23,7 @@ namespace AlienGame
 		public virtual void Draw(Graphics g) { }
 		public virtual void DrawOverlay(Graphics g) { }
 		public virtual void Tick(Model m) { }
+		public virtual void Use(Model m, Actor user) { }
 
 		public void Save(XmlWriter w)
 		{
@@ -54,6 +55,12 @@ namespace AlienGame
 			var type = Assembly.GetExecutingAssembly().GetType(className);
 			var ctor = type.GetConstructor(new Type[] { typeof(XmlElement) });
 			return (Actor)ctor.Invoke(new object[] { e });
+		}
+
+		public static void UseTargets(Model m, Actor user, string name)
+		{
+			foreach (var a in m.Actors.Where(x => x.Name == name))
+				a.Use(m, user);
 		}
 	}
 }
