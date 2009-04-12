@@ -30,7 +30,7 @@ namespace AlienGame.Actors
 		public void AcceptOrder(Model m, Point targetSquare)
 		{
 			var food = m.ActorsAt(targetSquare)
-				.Where(a => a.GetType() == typeof(Food))
+				.Where(a => a is Food)
 				.Cast<Food>().FirstOrDefault();
 
 			if (food == null)

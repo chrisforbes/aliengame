@@ -22,32 +22,74 @@ namespace AlienGame.Actors
 		public Food() : base() { }
 		public Food(XmlElement e) : base(e) { }
 
-		bool panicking;
+		enum AiState { Idle, PanicStart, PanicGoForButton, PanicRun, PanicReplan };
+
+		AiState state = AiState.Idle;
+
+		Order SetState(AiState newState)
+		{
+			return (a, m) => { (a as Food).state = newState; return true; };
+		}
+
+		Alarm FindAlarm( Model m )
+		{
+			var room = m.GetRoomAt(Position.ToSquare());
+			return room.Actors
+				.Where(a => a is Alarm)
+				.Cast<Alarm>().FirstOrDefault();
+		}
+
+		Point ChooseRandomDestination(Model m)
+		{
+			var room = m.GetRoomAt(Position.ToSquare());
+			return room.ChooseRandomTile();
+		}
 
 		public override void Tick(Model m)
 		{
 			base.Tick(m);
-			if (GetVisibleActors(m).Any(a => a.GetType() == typeof(TestAlien)))
-				Panic(m);
+
+			switch (state)
+			{
+				case AiState.Idle:
+					if (GetVisibleActors(m).Any(a => a is TestAlien)) state = AiState.PanicStart;
+					break;
+
+				case AiState.PanicStart:
+					var button = FindAlarm(m);
+					if (button != null)
+					{
+						state = AiState.PanicGoForButton;
+
+						SetOrders(PlanPathTo(m, button.Position.ToSquare())
+							.Concat(new Order[] 
+							{ 
+								Orders.Face(button.Direction, 1 ),
+								Orders.Use(button),
+								SetState(AiState.PanicReplan)
+							}));
+					}
+					else
+						state = AiState.PanicReplan;
+					break;
+
+				case AiState.PanicGoForButton:
+				case AiState.PanicRun:
+					break;	// todo: if we see something (an alien!) that freaks us out more, replan
+
+				case AiState.PanicReplan:
+					state = AiState.PanicRun;
+
+					var dest = ChooseRandomDestination(m);
+					SetOrders(PlanPathTo(m, dest)
+						.Concat(new Order[] { SetState(AiState.PanicReplan) }));
+					break;
+			}
 		}
 
 		public void Panic( Model m )
 		{
-			// try to find a panic button in this room
-			var room = m.GetRoomAt(Position.ToSquare());
-			var button = room.Actors
-				.Where(a => a.GetType() == typeof(Alarm))
-				.Cast<Alarm>().FirstOrDefault();
-
-			if (button != null)
-				SetOrders(PlanPathTo(m, button.Position.ToSquare())
-					.Concat(new Order[] { 
-						Orders.Face(button.Direction, 1 ),
-						Orders.Use(button) }));
-			else
-				throw new NotImplementedException("there's no button, but i want to run to one!");
-
-			panicking = true;
+			state = AiState.PanicStart;
 		}
 	}
 }

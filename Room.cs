@@ -10,6 +10,7 @@ namespace AlienGame
 	{
 		public List<Brush> brushes = new List<Brush>();
 		readonly Model model;
+		static Random random = new Random();
 
 		public Room(Model m, Brush firstBrush) { brushes.Add(firstBrush); model = m; }
 		public bool IntersectsWith(Rectangle r)
@@ -50,6 +51,14 @@ namespace AlienGame
 				return model.Actors.Where(
 					a => this.IntersectsWith(a.Position.ToSquare().ToPointRect()));
 			}
+		}
+
+		public Point ChooseRandomTile()
+		{
+			var brush = brushes[random.Next(brushes.Count)];
+			return new Point(
+				random.Next(brush.Bounds.Left, brush.Bounds.Right),
+				random.Next(brush.Bounds.Top, brush.Bounds.Bottom));
 		}
 	}
 }

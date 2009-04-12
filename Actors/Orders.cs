@@ -78,7 +78,7 @@ using AlienGame.Actors;
 						
 						// alert all the other dudes!
 						var otherFoods = m.GetRoomAt(a.Position.ToSquare()).Actors
-							.Where(b => b.GetType() == typeof(Food))
+							.Where(b => b is Food)
 							.Cast<Food>();
 
 						foreach (var x in otherFoods)
