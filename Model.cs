@@ -95,5 +95,16 @@ namespace AlienGame
 
 			w.WriteEndElement();
 		}
+
+		public Model() { }
+
+		public Model(XmlDocument doc)
+		{
+			// NB: actor loading is different, because the actual type of the resulting object varies.
+
+			brushes = doc.SelectNodes("//brush").Cast<XmlElement>().Select(e => new Brush(e)).ToList();
+			doors = doc.SelectNodes("//door").Cast<XmlElement>().Select(e => new Door(e)).ToList();
+			actors = doc.SelectNodes("//actor").Cast<XmlElement>().Select(e => Actor.Load(e)).ToList();
+		}
 	}
 }

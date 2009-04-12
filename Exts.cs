@@ -62,5 +62,10 @@ namespace AlienGame
 		{
 			w.WriteAttributeString(name, value.ToString());
 		}
+
+		public static int GetAttributeInt(this XmlElement e, string name)
+		{
+			return int.Parse(e.GetAttribute(name));
+		}
 	}
 }

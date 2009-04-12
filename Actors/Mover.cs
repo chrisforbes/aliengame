@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace AlienGame.Actors
 {
@@ -22,5 +23,8 @@ namespace AlienGame.Actors
 			while (orders.Count > 0 && orders[0](this, m))
 				orders.RemoveAt(0);
 		}
+
+		public Mover() : base() { }
+		public Mover(XmlElement e) : base(e) { }
 	}
 }

@@ -67,7 +67,7 @@ namespace AlienGame
 			ActorTool.NewActorType = comboBox2.SelectedItem as Type;
 		}
 
-		void Save(object sender, EventArgs e)
+		void SaveScenario(object sender, EventArgs e)
 		{
 			var sfd = new SaveFileDialog() 
 			{ 
@@ -82,6 +82,23 @@ namespace AlienGame
 					new XmlWriterSettings() { Indent = true });
 				surface1.Model.Save(w);
 				w.Close();
+			}
+		}
+
+		void LoadScenario(object sender, EventArgs e)
+		{
+			var ofd = new OpenFileDialog()
+			{
+				RestoreDirectory = true,
+				DefaultExt = ".ags",
+				Filter = "Alien Game Scenario (*.ags)|*.ags",
+			};
+
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				var doc = new XmlDocument();
+				doc.Load(ofd.FileName);
+				surface1.Model = new Model(doc);
 			}
 		}
 	}

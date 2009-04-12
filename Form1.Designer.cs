@@ -126,7 +126,7 @@
 			this.button1.TabIndex = 4;
 			this.button1.Text = "Save";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.Save);
+			this.button1.Click += new System.EventHandler(this.SaveScenario);
 			// 
 			// button2
 			// 
@@ -136,6 +136,7 @@
 			this.button2.TabIndex = 4;
 			this.button2.Text = "Load";
 			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.LoadScenario);
 			// 
 			// Form1
 			// 

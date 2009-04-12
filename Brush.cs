@@ -19,11 +19,20 @@ namespace AlienGame
 		public void Save(XmlWriter w)
 		{
 			w.WriteStartElement("brush");
-			w.WriteAttributeString("left", Bounds.Left.ToString());
-			w.WriteAttributeString("top", Bounds.Top.ToString());
-			w.WriteAttributeString("right", Bounds.Right.ToString());
-			w.WriteAttributeString("bottom", Bounds.Bottom.ToString());
+			w.WriteAttribute("left", Bounds.Left);
+			w.WriteAttribute("top", Bounds.Top);
+			w.WriteAttribute("right", Bounds.Right);
+			w.WriteAttribute("bottom", Bounds.Bottom);
 			w.WriteEndElement();
+		}
+
+		public Brush(XmlElement e)
+		{
+			Bounds = Rectangle.FromLTRB(
+				e.GetAttributeInt("left"),
+				e.GetAttributeInt("top"),
+				e.GetAttributeInt("right"),
+				e.GetAttributeInt("bottom"));
 		}
 	}
 }

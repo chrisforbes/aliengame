@@ -23,11 +23,18 @@ namespace AlienGame
 		public void Save(XmlWriter w)
 		{
 			w.WriteStartElement("door");
-			w.WriteAttributeString("x", Position.X.ToString());
-			w.WriteAttributeString("y", Position.Y.ToString());
-			w.WriteAttributeString("kind", Kind.ToString());
-			w.WriteAttributeString("state", State.ToString());
+			w.WriteAttribute("x", Position.X);
+			w.WriteAttribute("y", Position.Y);
+			w.WriteAttribute("kind", Kind);
+			w.WriteAttribute("state", State);
 			w.WriteEndElement();
+		}
+
+		public Door(XmlElement e)
+		{
+			Position = new Point(e.GetAttributeInt("x"), e.GetAttributeInt("y"));
+			Kind = e.GetAttributeInt("kind");
+			State = e.GetAttributeInt("state");
 		}
 	}
 }

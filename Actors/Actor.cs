@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.ComponentModel;
 using System.Xml;
+using System.Reflection;
 
 namespace AlienGame
 {
@@ -37,6 +38,22 @@ namespace AlienGame
 			w.WriteAttribute("y", Position.Y);
 			w.WriteAttribute("dir", Direction);
 			w.WriteAttribute("name", Name);
+		}
+
+		protected Actor(XmlElement e)
+		{
+			Position = new Point(e.GetAttributeInt("x"),
+								 e.GetAttributeInt("y"));
+			Direction = e.GetAttributeInt("dir");
+			Name = e.GetAttribute("name");
+		}
+
+		public static Actor Load(XmlElement e)
+		{
+			var className = e.GetAttribute("class");
+			var type = Assembly.GetExecutingAssembly().GetType(className);
+			var ctor = type.GetConstructor(new Type[] { typeof(XmlElement) });
+			return (Actor)ctor.Invoke(new object[] { e });
 		}
 	}
 }

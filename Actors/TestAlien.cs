@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Xml;
 
 namespace AlienGame.Actors
 {
@@ -41,5 +42,8 @@ namespace AlienGame.Actors
 				yield return Orders.Walk(new Point(a.X * 40 + 20, a.Y * 40 + 20), 4);
 			}
 		}
+
+		public TestAlien() : base() { }
+		public TestAlien(XmlElement e) : base(e) { }
 	}
 }
