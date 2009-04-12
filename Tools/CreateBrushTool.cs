@@ -22,6 +22,7 @@ namespace AlienGame.Tools
 
 		public override bool OnMouseMove( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
+			if( b == null ) return true;
 			q = square;
 			if (mb == MouseButtons.Left) b.Bounds = Rectangle.FromLTRB(sq.X, sq.Y, q.X, q.Y).Fix();
 			return true;
