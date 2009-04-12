@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="3" top="3" right="4" bottom="11" />
+  <brush left="3" top="10" right="14" bottom="11" />
+  <brush left="13" top="3" right="14" bottom="11" />
+  <brush left="3" top="3" right="14" bottom="4" />
+  <brush left="5" top="5" right="12" bottom="9" />
+  <brush left="3" top="7" right="6" bottom="8" />
+  <brush left="3" top="6" right="6" bottom="7" />
+  <brush left="3" top="5" right="6" bottom="6" />
+  <brush left="3" top="8" right="6" bottom="9" />
+  <brush left="11" top="5" right="14" bottom="6" />
+  <brush left="11" top="6" right="14" bottom="7" />
+  <brush left="11" top="7" right="14" bottom="8" />
+  <brush left="11" top="8" right="14" bottom="9" />
+  <actor class="AlienGame.Actors.Marker" x="300" y="140" dir="0" name="" />
+  <actor class="AlienGame.Actors.TestAlien" x="340" y="220" dir="0" name="" />
+  <actor class="AlienGame.Actors.TestAlien" x="380" y="220" dir="0" name="" />
+</model>
