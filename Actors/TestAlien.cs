@@ -11,7 +11,7 @@ namespace AlienGame.Actors
 
 	interface IOrderTarget
 	{
-		void AcceptOrder(Point targetSquare);
+		void AcceptOrder(Model m, Point targetSquare);
 	}
 
 	class TestAlien : Mover, IOrderTarget
@@ -24,10 +24,16 @@ namespace AlienGame.Actors
 				Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
 		}
 
-		public void AcceptOrder(Point targetSquare)
+		public void AcceptOrder(Model m, Point targetSquare)
 		{
-			// todo: non-move orders
-			this.SetOrders(PlanPathTo(targetSquare));
+			var food = m.ActorsAt(targetSquare)
+				.Where(a => a.GetType() == typeof(Food))
+				.Cast<Food>().FirstOrDefault();
+
+			if (food == null)
+				this.SetOrders(PlanPathTo(targetSquare));
+			else
+				this.SetOrders(PlanToEat(food, targetSquare));
 		}
 
 		public IEnumerable<Order> PlanPathTo(Point to)
@@ -41,15 +47,11 @@ namespace AlienGame.Actors
 				var walkTo = new Point( path[ i ].X * 40 + 20, path[ i ].Y * 40 + 20 );
 				yield return Orders.Walk( walkTo, 6 );
 			}
-			
-			//while (a != p)
-			//{
-			//    var da = p.X - a.X;
-			//    var db = p.Y - a.Y;
+		}
 
-			//    a.Offset(Math.Sign(da), Math.Sign(db));
-			//    yield return Orders.Walk(new Point(a.X * 40 + 20, a.Y * 40 + 20), 4);
-			//}
+		public IEnumerable<Order> PlanToEat(Food f, Point to)
+		{
+			return PlanPathTo(to).Concat(new Order[] { Orders.Eat(f) });
 		}
 
 		public TestAlien() : base() { }

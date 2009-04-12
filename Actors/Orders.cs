@@ -7,6 +7,7 @@ using System.Drawing;
 namespace AlienGame
 {
 	using Order = Func<Actor, Model, bool>;
+using AlienGame.Actors;
 
 	static class Orders
 	{
@@ -62,6 +63,25 @@ namespace AlienGame
 				fy -= (int)fy;
 				return false;
 			};
+		}
+
+		public static Order Eat(Food f)
+		{
+			return (a, m) =>
+				{
+					if (a.Position.ToSquare() == f.Position.ToSquare())
+					{
+						// got eaten!
+						// todo: some animation bs
+						m.RemoveActor(f);
+						return true;
+					}
+					else
+					{
+						((IOrderTarget)a).AcceptOrder(m, f.Position.ToSquare());
+						return true;
+					}
+				};
 		}
 	}
 }

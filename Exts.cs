@@ -67,5 +67,10 @@ namespace AlienGame
 		{
 			return int.Parse(e.GetAttribute(name));
 		}
+
+		public static Point ToSquare(this Point p)
+		{
+			return new Point(p.X / 40, p.Y / 40);
+		}
 	}
 }
