@@ -57,6 +57,7 @@
     <Compile Include="Actors\Food.cs" />
     <Compile Include="Actors\Marker.cs" />
     <Compile Include="Actors\Mover.cs" />
+    <Compile Include="Actors\GuardSpawner.cs" />
     <Compile Include="Actors\TestAlien.cs" />
     <Compile Include="Pathfinder.cs" />
     <Compile Include="PropertiesForm.cs">
