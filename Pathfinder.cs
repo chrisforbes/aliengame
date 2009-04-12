@@ -10,8 +10,6 @@ namespace AlienGame
 {
 	class Pathfinder
 	{
-		public static Pathfinder Instance;
-
 		readonly Model model;
 		public Pathfinder( Model m )
 		{
@@ -62,15 +60,18 @@ namespace AlienGame
 				{
 					for( var y = brush.Bounds.Top ; y < brush.Bounds.Bottom ; y++ )
 					{
-						if( x == location.X && y == location.Y )
+						var xy = new Point( x, y );
+						if( xy == location )
 							continue;
-						if( model.GetBrushesAt( new Point( x, y ) ).Count() != 1 )
-							yield return new Point( x, y );
-						// TODO: if x,y is on either side of a door
-						//	 yield return new Point( x, y );
+						if( model.GetBrushesAt( xy ).Count() != 1 )
+							yield return xy;
+						if( model.GetDoorsEndFrom( xy ).Count() != 0 )
+							yield return xy;
 					}
 				}
 			}
+			foreach( var doorLocation in model.GetDoorsEndFrom( location ) )
+				yield return doorLocation;
 		}
 
 		// return a path in reverse order.

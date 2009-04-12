@@ -82,6 +82,18 @@ namespace AlienGame
 			return brushes.Where( x => x.Bounds.Contains( p ) );
 		}
 
+		public IEnumerable<Point> GetDoorsEndFrom( Point location )
+		{
+			if( null != HasDoor( location.X, location.Y, location.X + 1, location.Y ) )
+				yield return new Point( location.X + 1, location.Y );
+			if( null != HasDoor( location.X, location.Y, location.X - 1, location.Y ) )
+				yield return new Point( location.X - 1, location.Y );
+			if( null != HasDoor( location.X, location.Y, location.X, location.Y + 1 ) )
+				yield return new Point( location.X, location.Y + 1 );
+			if( null != HasDoor( location.X, location.Y, location.X, location.Y - 1 ) )
+				yield return new Point( location.X, location.Y - 1 );
+		}
+
 		public Room GetRoomAt(Point p)
 		{
 			return rooms.FirstOrDefault(
@@ -101,13 +113,9 @@ namespace AlienGame
 			w.WriteEndElement();
 		}
 
-		public Model()
-		{
-			Pathfinder.Instance = new Pathfinder( this );
-		}
+		public Model() {}
 
 		public Model(XmlDocument doc)
-			: this()
 		{
 			// NB: actor loading is different, because the actual type of the resulting object varies.
 

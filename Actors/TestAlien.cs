@@ -30,16 +30,16 @@ namespace AlienGame.Actors
 				.Where(a => a.GetType() == typeof(Food))
 				.Cast<Food>().FirstOrDefault();
 
-			if (food == null)
-				this.SetOrders(PlanPathTo(targetSquare));
+			if( food == null )
+				this.SetOrders( PlanPathTo( m, targetSquare ) );
 			else
-				this.SetOrders(PlanToEat(food, targetSquare));
+				this.SetOrders( PlanToEat( m, food, targetSquare ) );
 		}
 
-		public IEnumerable<Order> PlanPathTo(Point to)
+		public IEnumerable<Order> PlanPathTo( Model m, Point to)
 		{
 			var from = new Point( Position.X / 40, Position.Y / 40 );
-			var pf = Pathfinder.Instance;
+			var pf = new Pathfinder( m );
 
 			var path = pf.FindPath( from, to ).ToList();
 			for( int i = path.Count - 1 ; i >= 0 ; i-- )
@@ -49,9 +49,9 @@ namespace AlienGame.Actors
 			}
 		}
 
-		public IEnumerable<Order> PlanToEat(Food f, Point to)
+		public IEnumerable<Order> PlanToEat( Model m, Food f, Point to)
 		{
-			return PlanPathTo(to).Concat(new Order[] { Orders.Eat(f) });
+			return PlanPathTo(m, to).Concat(new Order[] { Orders.Eat(f) });
 		}
 
 		public TestAlien() : base() { }
