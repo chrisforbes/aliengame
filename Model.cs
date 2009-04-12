@@ -105,6 +105,8 @@ namespace AlienGame
 			brushes = doc.SelectNodes("//brush").Cast<XmlElement>().Select(e => new Brush(e)).ToList();
 			doors = doc.SelectNodes("//door").Cast<XmlElement>().Select(e => new Door(e)).ToList();
 			actors = doc.SelectNodes("//actor").Cast<XmlElement>().Select(e => Actor.Load(e)).ToList();
+
+			rooms = Room.MakeRooms(this);
 		}
 	}
 }
