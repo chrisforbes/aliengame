@@ -88,7 +88,7 @@ using AlienGame.Actors;
 					else
 					{
 						((IOrderTarget)a).AcceptOrder(m, f.Position.ToSquare());
-						return true;
+						return false;
 					}
 				};
 		}
