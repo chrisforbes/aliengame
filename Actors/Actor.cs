@@ -62,5 +62,15 @@ namespace AlienGame
 			foreach (var a in m.Actors.Where(x => x.Name == name))
 				a.Use(m, user);
 		}
+
+		public static int MakeDirection(Point from, Point to, int def)
+		{
+			var dx = Math.Sign(to.X - from.X);
+			var dy = Math.Sign(to.Y - from.Y);
+
+			var dirs = new int[] { 7, 0, 1, 6, def, 2, 5, 4, 3 };
+
+			return dirs[3 * dy + dx +4];
+		}
 	}
 }

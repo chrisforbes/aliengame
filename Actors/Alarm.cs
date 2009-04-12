@@ -35,7 +35,7 @@ namespace AlienGame.Actors
 			w.WriteAttribute("target", Target);
 		}
 
-		public void Use(Model m, Actor usedBy)
+		public override void Use(Model m, Actor usedBy)
 		{
 			if (!triggered)
 			{
