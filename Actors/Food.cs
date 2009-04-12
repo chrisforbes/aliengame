@@ -15,6 +15,7 @@ namespace AlienGame.Actors
 		{
 			g.DrawRectangle(Pens.Green,
 				Position.X - 10, Position.Y - 10, 20, 20);
+			DrawDirection(g);
 			g.DrawString("Food\n" + Name, Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
 		}
 

@@ -13,6 +13,7 @@ namespace AlienGame.Actors
 		{
 			g.DrawRectangle(Pens.Fuchsia,
 					Position.X - 10, Position.Y - 10, 20, 20);
+			DrawDirection(g);
 			g.DrawString("Guard\n" + Name, Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
 		}
 

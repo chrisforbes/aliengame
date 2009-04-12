@@ -67,10 +67,16 @@ namespace AlienGame
 		{
 			var dx = Math.Sign(to.X - from.X);
 			var dy = Math.Sign(to.Y - from.Y);
-
-			var dirs = new int[] { 7, 0, 1, 6, def, 2, 5, 4, 3 };
-
+			var dirs = new int[] { 5, 6, 7, 4, def, 0, 3, 2, 1 };
 			return dirs[3 * dy + dx +4];
+		}
+
+		System.Drawing.Brush visionBrush = new SolidBrush(Color.Yellow.WithAlpha(128));
+
+		protected void DrawDirection(Graphics g)
+		{
+			g.FillPie(visionBrush, new Rectangle(Position.X - 20, Position.Y - 20, 40, 40),
+				Direction * 45 - 45, 90);
 		}
 	}
 }

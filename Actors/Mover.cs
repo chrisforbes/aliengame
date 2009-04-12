@@ -37,7 +37,9 @@ namespace AlienGame.Actors
 			for (int i = path.Count - 1; i >= 0; i--)
 			{
 				var walkTo = path[i].SquareToCenter();
+				yield return Orders.Face(MakeDirection(from, path[i], 0), 1);
 				yield return Orders.Walk(walkTo, 6);
+				from = path[i];
 			}
 		}
 	}

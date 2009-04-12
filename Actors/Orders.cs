@@ -17,8 +17,7 @@ using AlienGame.Actors;
 			var d = b - a;
 			if (d > 4) d -= 8;
 			if (d < -4) d += 8;
-
-			return a + Math.Sign(d);
+			return (a + Math.Sign(d) + 8) % 8;
 		}
 
 		public static Order Face(int direction, float speed)
@@ -28,14 +27,16 @@ using AlienGame.Actors;
 
 			return (a, m) =>
 			{
-				if (a.Direction == direction)
-					return true;
-				if ((s += speed) >= 1)
+				s += speed;
+				a.Direction %= 8;
+
+				while (a.Direction != direction && s >= 1)
 				{
 					a.Direction = TurnToward(a.Direction, direction);
-					s = 0;
+					--s;
 				}
-				return false;
+
+				return a.Direction % 8 == direction;
 			};
 		}
 
