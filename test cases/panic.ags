@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="5" top="5" right="13" bottom="11" />
+  <actor class="AlienGame.Actors.Food" x="380" y="260" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="420" y="340" dir="0" name="" />
+  <actor class="AlienGame.Actors.TestAlien" x="220" y="420" dir="0" name="" />
+  <actor class="AlienGame.Actors.Alarm" x="220" y="260" dir="0" name="" target="" />
+</model>
