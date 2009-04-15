@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, Model, bool>;
+	using Order = Func<Actor, bool>;
 
 	class Food : Mover
 	{
@@ -15,8 +15,8 @@ namespace AlienGame.Actors
 			DrawBasicActor(g, Pens.Green);
 		}
 
-		public Food() : base() { }
-		public Food(XmlElement e) : base(e) { }
+		public Food(Model m) : base(m) { }
+		public Food(Model m, XmlElement e) : base(m,e) { }
 
 		enum AiState { Idle, PanicStart, PanicGoForButton, PanicRun, PanicReplan };
 
@@ -24,44 +24,34 @@ namespace AlienGame.Actors
 
 		Order SetState(AiState newState)
 		{
-			return (a, m) => { (a as Food).state = newState; return true; };
+			return a => { (a as Food).state = newState; return true; };
 		}
 
-		Alarm FindAlarm( Model m )
-		{
-			var room = m.GetRoomAt(Position.ToSquare());
-			return room.Actors.OfType<Alarm>().ClosestTo(this);
-		}
+		public void Die() { m.RemoveActor(this); }
 
-		Point ChooseRandomDestination(Model m)
+		public override void Tick()
 		{
-			var room = m.GetRoomAt(Position.ToSquare());
-			return room.ChooseRandomTile();
-		}
-
-		public override void Tick(Model m)
-		{
-			base.Tick(m);
+			base.Tick();
 
 			switch (state)
 			{
 				case AiState.Idle:
-					if (GetVisibleActors(m).Any(a => a is TestAlien)) state = AiState.PanicStart;
+					if (GetVisibleActors().Any(a => a is TestAlien)) state = AiState.PanicStart;
 					break;
 
 				case AiState.PanicStart:
-					var button = FindAlarm(m);
+					var button = m.GetRoomAt(Position.ToSquare())
+						.Actors.OfType<Alarm>().ClosestTo(this);
+
 					if (button != null)
 					{
 						state = AiState.PanicGoForButton;
 
-						SetOrders(PlanPathTo(m, button.Position.ToSquare())
-							.Concat(new Order[] 
-							{ 
-								Orders.Face(button.Direction, 1 ),
+						SetOrders(PlanPathTo(button.Position.ToSquare())
+							.Concat(
+								Orders.Face(button.Direction, 1),
 								Orders.Use(button),
-								SetState(AiState.PanicReplan)
-							}));
+								SetState(AiState.PanicReplan)));
 					}
 					else
 						state = AiState.PanicReplan;
@@ -74,9 +64,11 @@ namespace AlienGame.Actors
 				case AiState.PanicReplan:
 					state = AiState.PanicRun;
 
-					var dest = ChooseRandomDestination(m);
-					SetOrders(PlanPathTo(m, dest)
-						.Concat(new Order[] { SetState(AiState.PanicReplan) }));
+					var dest = m.GetRoomAt(Position.ToSquare())
+						.ChooseRandomTile();
+
+					SetOrders(PlanPathTo(dest)
+						.Concat(SetState(AiState.PanicReplan)));
 					break;
 			}
 		}

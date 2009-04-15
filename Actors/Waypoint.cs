@@ -10,9 +10,9 @@ namespace AlienGame.Actors
 		public string Target { get; set; }
 
 		public override void Draw(Graphics g) { DrawPointActor(g, Pens.Green); }
-		public override void DrawOverlay(Model m, Graphics g)
+		public override void DrawOverlay(Graphics g)
 		{
-			foreach( var a in Actor.FindTargets( m, Target ))
+			foreach( var a in FindTargets( Target ))
 				g.DrawLine(arrowPen, Position, a.Position);
 		}
 
@@ -22,7 +22,7 @@ namespace AlienGame.Actors
 			w.WriteAttribute("target", Target);
 		}
 
-		public Waypoint() : base() { Target = ""; }
-		public Waypoint(XmlElement e) : base(e) { Target = e.GetAttribute("target"); }
+		public Waypoint(Model m) : base(m) { Target = ""; }
+		public Waypoint(Model m, XmlElement e) : base(m,e) { Target = e.GetAttribute("target"); }
 	}
 }

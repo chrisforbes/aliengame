@@ -6,7 +6,7 @@ using System.Xml;
 namespace AlienGame.Actors
 {
 	using System.Drawing;
-	using Order = Func<Actor, Model, bool>;
+	using Order = Func<Actor, bool>;
 
 	abstract class Mover : Actor
 	{
@@ -18,16 +18,21 @@ namespace AlienGame.Actors
 			this.orders = orders.ToList();
 		}
 
-		public override void Tick(Model m)
+		public void InterruptOrders(IEnumerable<Order> newOrders)
 		{
-			while (orders.Count > 0 && orders[0](this, m))
+			this.orders.InsertRange(0, newOrders);
+		}
+
+		public override void Tick()
+		{
+			while (orders.Count > 0 && orders[0](this))
 				orders.RemoveAt(0);
 		}
 
-		public Mover() : base() { }
-		public Mover(XmlElement e) : base(e) { }
+		protected Mover(Model m) : base(m) { }
+		protected Mover(Model m, XmlElement e) : base(m, e) { }
 
-		public IEnumerable<Order> PlanPathTo(Model m, Point to)
+		public IEnumerable<Order> PlanPathTo(Point to)
 		{
 			var from = Position.ToSquare();
 			var pf = new Pathfinder(m);

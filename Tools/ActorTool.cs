@@ -27,7 +27,7 @@ namespace AlienGame.Tools
 
 		public override bool OnMouseDown( Surface s, Model m, Point square, Point offset, MouseButtons mb )
 		{
-			var a = Activator.CreateInstance(NewActorType) as Actor;
+			var a = Activator.CreateInstance(NewActorType, m) as Actor;
 			a.Position = q.SquareToCenter();
 			m.AddActor(a);
 			m.SyncActorList();

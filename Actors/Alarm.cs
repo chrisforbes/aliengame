@@ -18,14 +18,14 @@ namespace AlienGame.Actors
 				g.DrawString("Triggered !!", Form1.font, Brushes.White, Position.X - 8, Position.Y + 16);
 		}
 
-		public override void DrawOverlay(Model m, Graphics g)
+		public override void DrawOverlay(Graphics g)
 		{
-			foreach (var a in Actor.FindTargets(m, Target))
+			foreach (var a in FindTargets(Target))
 				g.DrawLine(arrowPen, Position, a.Position);
 		}
 
-		public Alarm() : base() { Target = ""; }
-		public Alarm(XmlElement e) : base(e) { Target = e.GetAttribute("target"); }
+		public Alarm(Model m) : base(m) { Target = ""; }
+		public Alarm(Model m, XmlElement e) : base(m,e) { Target = e.GetAttribute("target"); }
 
 		protected override void SaveAttributes(XmlWriter w)
 		{
@@ -33,13 +33,13 @@ namespace AlienGame.Actors
 			w.WriteAttribute("target", Target);
 		}
 
-		public override void Use(Model m, Actor usedBy)
+		public override void Use(Actor usedBy)
 		{
 			if (!(usedBy is Guard) && !triggered)	// food turns the alarm on. this also allows chaining.
 			{
 				triggered = true;
-				foreach( var a in Actor.FindTargets(m, Target) )
-					a.Use(m, this);
+				foreach( var a in FindTargets(Target) )
+					a.Use(this);
 			}
 
 			if (usedBy is Guard && triggered)	// guard turns the alarm off

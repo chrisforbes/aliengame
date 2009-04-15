@@ -86,5 +86,10 @@ namespace AlienGame
 			return ts.OrderBy(t => t.Position.DistanceSqTo(a.Position))
 				.FirstOrDefault();
 		}
+
+		public static IEnumerable<T> Concat<T>(this IEnumerable<T> xs, params T[] ys)
+		{
+			return xs.Concat((IEnumerable<T>)ys);
+		}
 	}
 }

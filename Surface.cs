@@ -95,7 +95,7 @@ namespace AlienGame
 
 			if (0 != (options & RenderOptions.ActorDebug))
 				foreach (var a in model.Actors)
-					a.DrawOverlay(model, e.Graphics);
+					a.DrawOverlay(e.Graphics);
 
 			if (tool != null)
 				tool.DrawToolOverlay(this, e.Graphics, model);

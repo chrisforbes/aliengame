@@ -7,14 +7,14 @@ namespace AlienGame.Actors
 	{
 		public override void Draw(Graphics g) { DrawPointActor(g, Pens.Orange); }
 
-		public GuardSpawner() : base() { }
-		public GuardSpawner(XmlElement e) : base(e) { }
+		public GuardSpawner(Model m) : base(m) { }
+		public GuardSpawner(Model m, XmlElement e) : base(m,e) { }
 
-		public override void Use(Model m, Actor user)
+		public override void Use(Actor user)
 		{
-			var a = new Guard() { Position = this.Position, Direction = this.Direction };
+			var a = new Guard(m) { Position = this.Position, Direction = this.Direction };
 			m.AddActor(a);
-			a.Use(m, user);
+			a.Use(user);
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace AlienGame.Actors
 	{
 		public override void Draw(Graphics g) { DrawBasicActor(g, Pens.Orange); }
 
-		public Marker() : base() { }
-		public Marker(XmlElement e) : base(e) { }
+		public Marker(Model m) : base(m) { }
+		public Marker(Model m, XmlElement e) : base(m,e) { }
 	}
 }

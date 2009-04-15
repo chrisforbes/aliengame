@@ -53,9 +53,7 @@ namespace AlienGame
 
 		public void Tick()
 		{
-			foreach (var a in actors)
-				a.Tick(this);
-
+			foreach (var a in actors) a.Tick();
 			SyncActorList();
 		}
 
@@ -121,7 +119,7 @@ namespace AlienGame
 
 			brushes = doc.SelectNodes("//brush").Cast<XmlElement>().Select(e => new Brush(e)).ToList();
 			doors = doc.SelectNodes("//door").Cast<XmlElement>().Select(e => new Door(e)).ToList();
-			actors = doc.SelectNodes("//actor").Cast<XmlElement>().Select(e => Actor.Load(e)).ToList();
+			actors = doc.SelectNodes("//actor").Cast<XmlElement>().Select(e => Actor.Load(this,e)).ToList();
 
 			rooms = Room.MakeRooms(this);
 		}

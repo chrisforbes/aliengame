@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Xml;
 using System.ComponentModel;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor,Model,bool>;
+	using Order = Func<Actor,bool>;
 
 	class Guard : Mover
 	{
@@ -25,20 +26,17 @@ namespace AlienGame.Actors
 			w.WriteAttribute("target", Target);
 		}
 
-		public Guard() : base() { Target = "";  }
-		public Guard(XmlElement e) : base(e) { Target = e.GetAttribute("target"); }
+		public Guard(Model m) : base(m) { Target = "";  }
+		public Guard(Model m, XmlElement e) : base(m,e) { Target = e.GetAttribute("target"); }
 
 		enum AiState { Idle, FollowingPath, RespondToAlarm };
 		AiState state = AiState.Idle;
 
-		public override void Use(Model m, Actor user)
+		public override void Use(Actor user)
 		{
 			// we've just got a tip about an alien at `user`.
-			SetOrders(PlanPathTo(m, user.Position.ToSquare()).Concat(
-				new Order[] 
-				{
-					Orders.Use((Alarm)user)
-				}));
+			SetOrders(PlanPathTo(user.Position.ToSquare())
+				.Concat(Orders.Use((Alarm)user)));
 
 			state = AiState.RespondToAlarm;
 
@@ -50,34 +48,32 @@ namespace AlienGame.Actors
 
 		Order SetTarget(string newTarget)
 		{
-			return (a, m) => { (a as Guard).Target = newTarget; return true; };
+			return a => { (a as Guard).Target = newTarget; return true; };
 		}
 
 		Order SetState(AiState newState)
 		{
-			return (a, m) => { (a as Guard).state = newState; return true; };
+			return a => { (a as Guard).state = newState; return true; };
 		}
 
 		void PlanToWaypoint(Model m, Waypoint w)
 		{
-			SetOrders( PlanPathTo( m, w.Position.ToSquare() ).Concat(
-				new Order[] 
-				{
-					SetTarget( w.Target ),
-					SetState(AiState.Idle)
-				}));
+			SetOrders( PlanPathTo( w.Position.ToSquare() )
+				.Concat(
+					SetTarget(w.Target),
+					SetState(AiState.Idle)));
 
 			state = AiState.FollowingPath;
 		}
 
-		public override void Tick(Model m)
+		public override void Tick()
 		{
-			base.Tick(m);
+			base.Tick();
 
 			switch (state)
 			{
 				case AiState.Idle:
-					var target = Actor.FindTargets(m, Target).OfType<Waypoint>().FirstOrDefault();
+					var target = FindTargets(Target).OfType<Waypoint>().FirstOrDefault();
 					if (target != null)
 						PlanToWaypoint(m, target);
 					break;

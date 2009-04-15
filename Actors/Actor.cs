@@ -9,6 +9,8 @@ using System.Xml;
 
 namespace AlienGame
 {
+	using DBrush = System.Drawing.Brush;
+
 	abstract class Actor
 	{
 		[Browsable(true), Category("Actor")]
@@ -18,12 +20,14 @@ namespace AlienGame
 		[Browsable(true), Category("Actor")]
 		public string Name { get; set; }
 
-		protected Actor() { Name = ""; }
+		public Model m;
+
+		protected Actor(Model m) { this.m = m; Name = ""; }
 
 		public virtual void Draw(Graphics g) { }
-		public virtual void DrawOverlay(Model m, Graphics g) { }
-		public virtual void Tick(Model m) { }
-		public virtual void Use(Model m, Actor user) { }
+		public virtual void DrawOverlay(Graphics g) { }
+		public virtual void Tick() { }
+		public virtual void Use(Actor user) { }
 
 		public void Save(XmlWriter w)
 		{
@@ -41,25 +45,26 @@ namespace AlienGame
 			w.WriteAttribute("name", Name);
 		}
 
-		protected Actor(XmlElement e)
+		protected Actor(Model m, XmlElement e)
 		{
+			this.m = m;
 			Position = new Point(e.GetAttributeInt("x"),
 								 e.GetAttributeInt("y"));
 			Direction = e.GetAttributeInt("dir");
 			Name = e.GetAttribute("name");
 		}
 
-		public static Actor Load(XmlElement e)
+		public static Actor Load(Model m, XmlElement e)
 		{
 			var className = e.GetAttribute("class");
 			var type = Assembly.GetExecutingAssembly().GetType(className);
-			var ctor = type.GetConstructor(new Type[] { typeof(XmlElement) });
-			return (Actor)ctor.Invoke(new object[] { e });
+			var ctor = type.GetConstructor(new Type[] { typeof(Model), typeof(XmlElement) });
+			return (Actor)ctor.Invoke(new object[] { m, e });
 		}
 
 		protected static Pen arrowPen = new Pen(Color.Orange) { EndCap = LineCap.ArrowAnchor };
 
-		public static IEnumerable<Actor> FindTargets(Model m, string name)
+		public IEnumerable<Actor> FindTargets(string name)
 		{
 			return m.Actors.Where(x => x.Name == name);
 		}
@@ -72,7 +77,7 @@ namespace AlienGame
 			return dirs[3 * dy + dx +4];
 		}
 
-		System.Drawing.Brush visionBrush = new SolidBrush(Color.Yellow.WithAlpha(128));
+		DBrush visionBrush = new SolidBrush(Color.Yellow.WithAlpha(128));
 
 		protected void DrawDirection(Graphics g)
 		{
@@ -93,11 +98,10 @@ namespace AlienGame
 			g.DrawString(GetType().Name + "\n" + Name, Form1.font, Brushes.White, Position.X - 8, Position.Y - 8);
 		}
 
-		public IEnumerable<Actor> GetVisibleActors(Model m)
+		public IEnumerable<Actor> GetVisibleActors()
 		{
 			// just actors in this room!
-			return m.GetRoomAt(Position.ToSquare()).Actors
-				.Where(a => CanSee(a));
+			return m.GetRoomAt(Position.ToSquare()).Actors.Where(CanSee);
 		}
 
 		public bool CanSee(Actor other)

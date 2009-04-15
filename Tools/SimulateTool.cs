@@ -26,7 +26,7 @@ namespace AlienGame
 				selected = m.ActorsAt(square).Where(a => a is IOrderTarget).FirstOrDefault();
 
 			if (mb == MouseButtons.Right && selected != null)
-				((IOrderTarget)selected).AcceptOrder( m, square );
+				((IOrderTarget)selected).AcceptOrder( square );
 
 			return true;
 		}

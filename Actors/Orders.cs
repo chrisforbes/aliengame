@@ -5,7 +5,7 @@ using AlienGame.Actors;
 
 namespace AlienGame
 {
-	using Order = Func<Actor, Model, bool>;
+	using Order = Func<Actor, bool>;
 
 	static class Orders
 	{
@@ -23,7 +23,7 @@ namespace AlienGame
 			float s = 0;
 			direction %= 8;
 
-			return (a, m) =>
+			return a =>
 			{
 				s += speed;
 				a.Direction %= 8;
@@ -42,7 +42,7 @@ namespace AlienGame
 		{
 			float fx = 0, fy = 0;
 
-			return (a, m) =>
+			return a =>
 			{
 				var ux = p.X - a.Position.X - fx;
 				var uy = p.Y - a.Position.Y - fy;
@@ -66,25 +66,25 @@ namespace AlienGame
 
 		public static Order Eat(Food f)
 		{
-			return (a, m) =>
+			return a =>
 				{
 					if (a.Position.ToSquare() == f.Position.ToSquare())
 					{
 						// got eaten!
 						// todo: some animation bs
-						m.RemoveActor(f);
+						f.Die();
 						
 						// alert all the other dudes!
-						var otherFoods = m.GetRoomAt(a.Position.ToSquare()).Actors.OfType<Food>();
+						var otherFoods = a.m.GetRoomAt(a.Position.ToSquare()).Actors.OfType<Food>();
 
 						foreach (var x in otherFoods)
-							x.Panic(m);
+							x.Panic(a.m);
 
 						return true;
 					}
 					else
 					{
-						((IOrderTarget)a).AcceptOrder(m, f.Position.ToSquare());
+						((IOrderTarget)a).AcceptOrder(f.Position.ToSquare());
 						return false;
 					}
 				};
@@ -92,9 +92,23 @@ namespace AlienGame
 
 		public static Order Use(Alarm b)
 		{
-			return (a, m) =>
+			return a =>
 				{
-					b.Use(m, a);
+					b.Use(a);
+					return true;
+				};
+		}
+
+		public static Order ReturnFromInterruption(Mover x, float turnSpeed)
+		{
+			var pos = x.Position;
+			var dir = x.Direction;
+
+			return a =>
+				{
+					(a as Mover).InterruptOrders(
+						(a as Mover).PlanPathTo( pos.ToSquare() )
+						.Concat( Orders.Face( dir, turnSpeed ) ) );
 					return true;
 				};
 		}

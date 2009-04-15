@@ -6,11 +6,11 @@ using System.Xml;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, Model, bool>;
+	using Order = Func<Actor, bool>;
 
 	interface IOrderTarget
 	{
-		void AcceptOrder(Model m, Point targetSquare);
+		void AcceptOrder(Point targetSquare);
 	}
 
 	class TestAlien : Mover, IOrderTarget
@@ -21,22 +21,22 @@ namespace AlienGame.Actors
 			DrawBasicActor(g, Pens.Blue);
 		}
 
-		public void AcceptOrder(Model m, Point targetSquare)
+		public void AcceptOrder(Point targetSquare)
 		{
 			var food = m.ActorsAt(targetSquare).OfType<Food>().FirstOrDefault();
 
 			if (food == null)
-				this.SetOrders(PlanPathTo(m, targetSquare));
+				SetOrders(PlanPathTo(targetSquare));
 			else
-				this.SetOrders(PlanToEat(m, food, targetSquare));
+				SetOrders(PlanToEat(food, targetSquare));
 		}
 
-		public IEnumerable<Order> PlanToEat(Model m, Food f, Point to)
+		public IEnumerable<Order> PlanToEat(Food f, Point to)
 		{
-			return PlanPathTo(m, to).Concat(new Order[] { Orders.Eat(f) });
+			return PlanPathTo(to).Concat(Orders.Eat(f));
 		}
 
-		public TestAlien() : base() { }
-		public TestAlien(XmlElement e) : base(e) { }
+		public TestAlien(Model m) : base(m) { }
+		public TestAlien(Model m, XmlElement e) : base(m,e) { }
 	}
 }
