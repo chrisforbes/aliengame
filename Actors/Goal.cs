@@ -62,7 +62,11 @@ namespace AlienGame.Actors
 						if (w.Position.ToSquare() != a.Position.ToSquare())
 							a.SetOrders(a.PlanPathTo(w.Position.ToSquare()));
 						else
+						{
 							w = w.Next();
+							if (w != null && a is Guard)
+								(a as Guard).Target = w.Name;	// for the level designer's benefit
+						}
 				});
 		}
 	}
