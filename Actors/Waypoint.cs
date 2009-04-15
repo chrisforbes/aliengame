@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Xml;
+using System.Linq;
 
 namespace AlienGame.Actors
 {
@@ -24,5 +25,10 @@ namespace AlienGame.Actors
 
 		public Waypoint(Model m) : base(m) { Target = ""; }
 		public Waypoint(Model m, XmlElement e) : base(m,e) { Target = e.GetAttribute("target"); }
+
+		public Waypoint Next()
+		{
+			return FindTargets(Target).OfType<Waypoint>().FirstOrDefault();
+		}
 	}
 }

@@ -92,21 +92,11 @@ namespace AlienGame
 
 		public static Order Use(Actor b)
 		{
-			return a => { b.Use(a); return true; };
-		}
-
-		public static Order ReturnFromInterruption(Mover x, float turnSpeed)
-		{
-			var pos = x.Position;
-			var dir = x.Direction;
-
-			return a =>
-				{
-					(a as Mover).InterruptOrders(
-						(a as Mover).PlanPathTo( pos.ToSquare() )
-						.Concat( Orders.Face( dir, turnSpeed ) ) );
-					return true;
-				};
+			return a => 
+			{ 
+				b.Use(a); 
+				return true; 
+			};
 		}
 	}
 }

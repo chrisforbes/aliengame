@@ -72,7 +72,7 @@ namespace AlienGame
 
 		public IEnumerable<Actor> ActorsAt(Point p)
 		{
-			return Actors.Where(a => p == new Point(a.Position.X / 40, a.Position.Y / 40));
+			return Actors.Where(a => p == a.Position.ToSquare());
 		}
 
 		public IEnumerable<Brush> GetBrushesAt( Point p )

@@ -2,14 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using System.Drawing;
+using IjwFramework.Types;
 
 namespace AlienGame.Actors
 {
-	using System.Drawing;
 	using Order = Func<Actor, bool>;
 
 	abstract class Mover : Actor
 	{
+		Stack<Goal> goals = new Stack<Goal>();
+
+		public void PushGoal(Goal g)
+		{
+			goals.Push(g);
+			g.MakePlan(this);
+		}
+
+		public void PopGoal()
+		{
+			goals.Pop();
+			if (goals.Count > 0)
+				goals.Peek().MakePlan(this);
+			else
+				CancelOrders();
+		}
+
+		public void ReplaceGoal(Goal g)
+		{
+			goals.Pop();
+			PushGoal(g);
+		}
+
 		List<Order> orders = new List<Order>();
 
 		public void CancelOrders() { orders.Clear(); }
@@ -18,15 +42,26 @@ namespace AlienGame.Actors
 			this.orders = orders.ToList();
 		}
 
-		public void InterruptOrders(IEnumerable<Order> newOrders)
-		{
-			this.orders.InsertRange(0, newOrders);
-		}
-
 		public override void Tick()
 		{
+			// goal-based planner!
+			if (goals.Count > 0)
+			{
+				var g = goals.Peek();
+				for(;;)
+				{
+					g.Tick(this);
+					if (goals.Count == 0 || goals.Peek() == g)
+						break;
+					g = goals.Peek();
+				}
+			}
+
 			while (orders.Count > 0 && orders[0](this))
 				orders.RemoveAt(0);
+
+			if (orders.Count == 0 && goals.Count > 0)
+				goals.Peek().MakePlan(this);
 		}
 
 		protected Mover(Model m) : base(m) { }
