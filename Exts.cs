@@ -63,9 +63,21 @@ namespace AlienGame
 			w.WriteAttributeString(name, value.ToString());
 		}
 
-		public static int GetAttributeInt(this XmlElement e, string name)
+		public static void WriteAttribute(this XmlWriter w, string name, float value)
 		{
-			return int.Parse(e.GetAttribute(name));
+			w.WriteAttributeString(name, value.ToString());
+		}
+
+		public static int GetAttributeInt(this XmlElement e, string name, int def)
+		{
+			int val = def;
+			return int.TryParse(e.GetAttribute(name), out val) ? val : def;
+		}
+
+		public static float GetAttributeFloat(this XmlElement e, string name, float def)
+		{
+			float val = def;
+			return float.TryParse(e.GetAttribute(name), out val) ? val : def;
 		}
 
 		public static Point ToSquare(this Point p)

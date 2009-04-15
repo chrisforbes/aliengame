@@ -48,9 +48,9 @@ namespace AlienGame
 		protected Actor(Model m, XmlElement e)
 		{
 			this.m = m;
-			Position = new Point(e.GetAttributeInt("x"),
-								 e.GetAttributeInt("y"));
-			Direction = e.GetAttributeInt("dir");
+			Position = new Point(e.GetAttributeInt("x", 0),
+								 e.GetAttributeInt("y", 0));
+			Direction = e.GetAttributeInt("dir", 0);
 			Name = e.GetAttribute("name");
 		}
 

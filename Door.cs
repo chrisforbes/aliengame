@@ -32,9 +32,9 @@ namespace AlienGame
 
 		public Door(XmlElement e)
 		{
-			Position = new Point(e.GetAttributeInt("x"), e.GetAttributeInt("y"));
-			Kind = e.GetAttributeInt("kind");
-			State = e.GetAttributeInt("state");
+			Position = new Point(e.GetAttributeInt("x", 0), e.GetAttributeInt("y", 0));
+			Kind = e.GetAttributeInt("kind", 0);
+			State = e.GetAttributeInt("state", 0);
 		}
 	}
 }

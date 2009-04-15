@@ -90,13 +90,9 @@ namespace AlienGame
 				};
 		}
 
-		public static Order Use(Alarm b)
+		public static Order Use(Actor b)
 		{
-			return a =>
-				{
-					b.Use(a);
-					return true;
-				};
+			return a => { b.Use(a); return true; };
 		}
 
 		public static Order ReturnFromInterruption(Mover x, float turnSpeed)

@@ -29,10 +29,10 @@ namespace AlienGame
 		public Brush(XmlElement e)
 		{
 			Bounds = Rectangle.FromLTRB(
-				e.GetAttributeInt("left"),
-				e.GetAttributeInt("top"),
-				e.GetAttributeInt("right"),
-				e.GetAttributeInt("bottom"));
+				e.GetAttributeInt("left", 0),
+				e.GetAttributeInt("top", 0),
+				e.GetAttributeInt("right", 0),
+				e.GetAttributeInt("bottom", 0));
 		}
 	}
 }

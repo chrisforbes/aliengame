@@ -34,16 +34,20 @@ namespace AlienGame.Actors
 
 		public override void Use(Actor user)
 		{
+			var initialPosition = Position.ToSquare();
+
 			// we've just got a tip about an alien at `user`.
 			SetOrders(PlanPathTo(user.Position.ToSquare())
-				.Concat(Orders.Use((Alarm)user)));
+				.Concat(
+					Orders.Use((Alarm)user),
+					// todo: in here, do some kind of `securing the area` behavior
+					a =>		// omfg this is an ugly hack!
+					{
+						SetOrders(PlanPathTo(initialPosition).Concat(Orders.Use(
+							m.ActorsAt(initialPosition).OfType<GuardSpawner>().First()))); return false;
+					}));
 
 			state = AiState.RespondToAlarm;
-
-			// todo: use a different planner, or override it for spotting an alien!
-			// todo: mill around after reaching target position
-			// todo: jitter target position so we dont look dumb when there's more than one dude spawned
-			// todo: get bored and go back to the spawner [and unspawn] after a while
 		}
 
 		Order SetTarget(string newTarget)
