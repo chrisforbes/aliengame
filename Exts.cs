@@ -72,5 +72,19 @@ namespace AlienGame
 		{
 			return new Point(p.X / 40, p.Y / 40);
 		}
+
+		public static int DistanceSqTo(this Point p, Point q)
+		{
+			var dx = p.X - q.X;
+			var dy = p.Y - q.Y;
+			return dx * dx + dy * dy;
+		}
+
+		public static T ClosestTo<T>(this IEnumerable<T> ts, Actor a)
+			where T : Actor
+		{
+			return ts.OrderBy(t => t.Position.DistanceSqTo(a.Position))
+				.FirstOrDefault();
+		}
 	}
 }

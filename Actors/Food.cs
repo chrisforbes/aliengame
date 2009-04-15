@@ -30,9 +30,7 @@ namespace AlienGame.Actors
 		Alarm FindAlarm( Model m )
 		{
 			var room = m.GetRoomAt(Position.ToSquare());
-			return room.Actors
-				.Where(a => a is Alarm)
-				.Cast<Alarm>().FirstOrDefault();
+			return room.Actors.OfType<Alarm>().ClosestTo(this);
 		}
 
 		Point ChooseRandomDestination(Model m)

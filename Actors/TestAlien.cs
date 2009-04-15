@@ -23,9 +23,7 @@ namespace AlienGame.Actors
 
 		public void AcceptOrder(Model m, Point targetSquare)
 		{
-			var food = m.ActorsAt(targetSquare)
-				.Where(a => a is Food)
-				.Cast<Food>().FirstOrDefault();
+			var food = m.ActorsAt(targetSquare).OfType<Food>().FirstOrDefault();
 
 			if (food == null)
 				this.SetOrders(PlanPathTo(m, targetSquare));

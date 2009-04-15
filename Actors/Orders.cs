@@ -75,9 +75,7 @@ namespace AlienGame
 						m.RemoveActor(f);
 						
 						// alert all the other dudes!
-						var otherFoods = m.GetRoomAt(a.Position.ToSquare()).Actors
-							.Where(b => b is Food)
-							.Cast<Food>();
+						var otherFoods = m.GetRoomAt(a.Position.ToSquare()).Actors.OfType<Food>();
 
 						foreach (var x in otherFoods)
 							x.Panic(m);

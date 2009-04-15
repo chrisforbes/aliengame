@@ -77,8 +77,7 @@ namespace AlienGame.Actors
 			switch (state)
 			{
 				case AiState.Idle:
-					var target = Actor.FindTargets(m, Target)
-						.Where(a => a is Waypoint).Cast<Waypoint>().FirstOrDefault();
+					var target = Actor.FindTargets(m, Target).OfType<Waypoint>().FirstOrDefault();
 					if (target != null)
 						PlanToWaypoint(m, target);
 					break;
