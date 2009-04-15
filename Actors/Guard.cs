@@ -38,5 +38,17 @@ namespace AlienGame.Actors
 			PushGoal(Goal.Use(spawner));
 			PushGoal(Goal.Use(user));
 		}
+
+		public override void Tick()
+		{
+			base.Tick();
+
+			if (!HasAnyGoals())	// try to find something else to do
+			{
+				var wp = FindTargets(Target).OfType<Waypoint>().FirstOrDefault();
+				if (wp != null)
+					PushGoal(Goal.FollowWaypoints(wp));
+			}
+		}
 	}
 }

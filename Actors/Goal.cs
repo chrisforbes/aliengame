@@ -39,13 +39,7 @@ namespace AlienGame.Actors
 		{
 			bool completed = false;
 			return new Goal("Use",
-				a =>
-				{
-					if (completed)
-					{
-						a.PopGoal();
-					}
-				},
+				a => { if (completed) a.PopGoal(); },
 				a => 
 				{
 					if (a.Position.ToSquare() != b.Position.ToSquare())
@@ -66,7 +60,7 @@ namespace AlienGame.Actors
 				{
 					if (w != null)
 						if (w.Position.ToSquare() != a.Position.ToSquare())
-							a.SetOrders(a.PlanPathTo(w.Position));
+							a.SetOrders(a.PlanPathTo(w.Position.ToSquare()));
 						else
 							w = w.Next();
 				});
