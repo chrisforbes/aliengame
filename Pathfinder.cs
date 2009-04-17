@@ -48,7 +48,7 @@ namespace AlienGame
 			return Math.Sqrt( ( dx * dx ) + ( dy * dy ) );
 		}
 
-		IEnumerable<Point> FindPathWithinBrush( Point location, Point endpoint )
+		IEnumerable<Point> FindNeighbours( Point location, Point endpoint )
 		{
 			foreach( var brush in model.GetBrushesAt( location ) )
 			{
@@ -74,6 +74,19 @@ namespace AlienGame
 				yield return doorLocation;
 		}
 
+		static IEnumerable<Point> TracePath(QueueNode k, Point from, Dictionary<Point, Pair<double,Point>> seen)
+		{
+			var nodeInfo = seen[k.Location];
+			yield return k.Location;
+			while (nodeInfo.Second != from)
+			{
+				yield return nodeInfo.Second;
+				nodeInfo = seen[nodeInfo.Second];
+			}
+		}
+
+		static IEnumerable<Point> NoPath = new Point[] { };
+
 		// return a path in reverse order.
 		public IEnumerable<Point> FindPath( Point from, Point to )
 		{
@@ -86,23 +99,15 @@ namespace AlienGame
 			while( !queue.Empty )
 			{
 				var k = queue.Pop();
-				var nodeInfo = seen[ k.Location ];
-				if( k.Location == to )
-				{
-					yield return k.Location;
-					while( nodeInfo.Second != from )
-					{
-						yield return nodeInfo.Second;
-						nodeInfo = seen[ nodeInfo.Second ];
-					}
-					yield break;
-				}
-				if( k.DistanceSoFar > nodeInfo.First )
-					continue;
+				if (k.Location == to) return TracePath(k, from, seen);
+
+				var nodeInfo = seen[k.Location];
+
+				if( k.DistanceSoFar > nodeInfo.First ) continue;
 				if( k.DistanceSoFar < nodeInfo.First )
 					throw new NotImplementedException( "WTF: found a faster path than mindistance" );
 
-				foreach( var node in FindPathWithinBrush( k.Location, to ) )
+				foreach( var node in FindNeighbours( k.Location, to ) )
 				{
 					var dist = Distance( k.Location, node ) + k.DistanceSoFar;
 					if( seen.TryGetValue( node, out nodeInfo ) )
@@ -116,8 +121,8 @@ namespace AlienGame
 					queue.Add( new QueueNode( dist, Distance( node, to ), node ) );
 				}
 			}
-			// no path exists.
-			yield break;
+
+			return NoPath;
 		}
 	}
 }
