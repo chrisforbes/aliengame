@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml;
+using System.Reflection;
 
 namespace AlienGame
 {
@@ -102,6 +103,12 @@ namespace AlienGame
 		public static IEnumerable<T> Concat<T>(this IEnumerable<T> xs, params T[] ys)
 		{
 			return xs.Concat((IEnumerable<T>)ys);
+		}
+
+		public static IEnumerable<Type> ConcreteSubtypes( this Type u )
+		{
+			return Assembly.GetExecutingAssembly().GetTypes()
+				.Where(t => !t.IsAbstract && u.IsAssignableFrom(t));
 		}
 	}
 }

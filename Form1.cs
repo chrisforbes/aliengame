@@ -22,8 +22,7 @@ namespace AlienGame
 			var model = new Model();
 			surface1.Model = model;
 
-			var tools = Assembly.GetExecutingAssembly().GetTypes()
-				.Where(t => t.BaseType == typeof(Tool))
+			var tools = typeof(Tool).ConcreteSubtypes()
 				.Select(t => Activator.CreateInstance(t))
 				.OrderBy(t => t.ToString());
 
@@ -31,8 +30,7 @@ namespace AlienGame
 			comboBox1.SelectedIndex = 0;
 			surface1.Tool = comboBox1.SelectedItem as Tool;
 
-			var actorClasses = Assembly.GetExecutingAssembly().GetTypes()
-				.Where(t => !t.IsAbstract && typeof(Actor).IsAssignableFrom(t));
+			var actorClasses = typeof(Actor).ConcreteSubtypes();
 
 			comboBox2.Items.AddRange(actorClasses.ToArray());
 			comboBox2.SelectedIndex = 0;

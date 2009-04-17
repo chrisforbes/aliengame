@@ -10,6 +10,7 @@ namespace AlienGame
 	class Brush
 	{
 		public Rectangle Bounds;
+		public int Content;
 
 		public Brush(Rectangle bounds)
 		{
@@ -23,6 +24,7 @@ namespace AlienGame
 			w.WriteAttribute("top", Bounds.Top);
 			w.WriteAttribute("right", Bounds.Right);
 			w.WriteAttribute("bottom", Bounds.Bottom);
+			w.WriteAttribute("content", Content);
 			w.WriteEndElement();
 		}
 
@@ -33,6 +35,8 @@ namespace AlienGame
 				e.GetAttributeInt("top", 0),
 				e.GetAttributeInt("right", 0),
 				e.GetAttributeInt("bottom", 0));
+
+			Content = e.GetAttributeInt("content", 0);
 		}
 	}
 }
