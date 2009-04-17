@@ -68,7 +68,7 @@ namespace AlienGame.Tools
 
 	class CreateVentBrushTool : CreateBrushTool
 	{
-		protected override void PrepareBrush(Brush b) { b.Content = 0; }
+		protected override void PrepareBrush(Brush b) { b.Content = 1; }
 		public override string Name { get { return "Create Vent Brush"; } }
 	}
 }
