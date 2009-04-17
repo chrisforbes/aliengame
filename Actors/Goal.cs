@@ -52,6 +52,36 @@ namespace AlienGame.Actors
 				});
 		}
 
+		public static Goal Eat(Actor b)
+		{
+			Point plannedDestination = new Point();
+			bool isLunging = false;
+			const float lungeThreshold = 4;
+
+			return new Goal("Eat",
+				a => 
+				{
+					if (!a.m.Actors.Contains(b)) { a.PopGoal(); return; }
+					if (b.Position.ToSquare() != plannedDestination)
+						a.CurrentGoal().MakePlan(a);
+					if (a.Position.ToSquare().DistanceSqTo(plannedDestination) <= lungeThreshold)
+						a.CurrentGoal().MakePlan(a);
+				},
+				a =>
+				{
+					if (isLunging) return;
+
+					plannedDestination = b.Position.ToSquare();
+					if (a.Position.ToSquare().DistanceSqTo(plannedDestination) > lungeThreshold)
+						Goal.WalkTo(plannedDestination).MakePlan(a);
+					else
+					{
+						isLunging = true; 
+						a.SetOrders(new Order[] { Orders.Lunge(b as Food, 0.3f) });
+					}
+				});
+		}
+
 		public static Goal FollowWaypoints(Waypoint w)
 		{
 			return new Goal("FollowWaypoints",

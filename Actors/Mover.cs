@@ -35,6 +35,9 @@ namespace AlienGame.Actors
 			PushGoal(g);
 		}
 
+		public Goal CurrentGoal() { return HasAnyGoals() ? goals.Peek() : null; }
+
+		public void RemoveAllGoals() { goals.Clear(); CancelOrders(); }
 		public bool HasAnyGoals() { return goals.Count > 0; }
 
 		List<Order> orders = new List<Order>();

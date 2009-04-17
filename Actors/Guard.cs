@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, bool>;
-
 	class Guard : Mover
 	{
 		[Browsable(true), Category("Guard")]

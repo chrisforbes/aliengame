@@ -25,15 +25,8 @@ namespace AlienGame.Actors
 		{
 			var food = m.ActorsAt(targetSquare).OfType<Food>().FirstOrDefault();
 
-			if (food == null)
-				SetOrders(PlanPathTo(targetSquare));
-			else
-				SetOrders(PlanToEat(food, targetSquare));
-		}
-
-		public IEnumerable<Order> PlanToEat(Food f, Point to)
-		{
-			return PlanPathTo(to).Concat(Orders.Eat(f));
+			RemoveAllGoals();
+			PushGoal((food == null) ? Goal.WalkTo(targetSquare) : Goal.Eat(food));
 		}
 
 		public TestAlien(Model m) : base(m) { }

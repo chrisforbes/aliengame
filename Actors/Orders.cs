@@ -64,6 +64,43 @@ namespace AlienGame
 			};
 		}
 
+		static Point Lerp(float t, Point a, Point b)
+		{
+			return new Point(
+				(int)(t * b.X + (1 - t) * a.X),
+				(int)(t * b.Y + (1 - t) * a.Y));
+		}
+
+		public static Order Lunge(Food f, float dt)
+		{
+			Point? original = null;
+			float lerp = 0.0f;
+
+			return a =>
+				{
+					if (original == null) original = a.Position;
+					lerp += dt;
+
+					if (lerp > 1.0f) lerp = 1.0f;
+					a.Position = Lerp(lerp, original.Value, f.Position);
+
+					if (lerp >= 1.0f)
+					{
+						lerp = 1.0f;
+						f.Die();
+
+						var otherFoods = a.m.GetRoomAt(a.Position.ToSquare())
+							.Actors.OfType<Food>();
+
+						foreach (var x in otherFoods)
+							x.Panic(a.m);
+						return true;
+					}
+
+					return false;
+				};
+		}
+
 		public static Order Eat(Food f)
 		{
 			return a =>
