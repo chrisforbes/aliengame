@@ -66,9 +66,8 @@ namespace AlienGame
 						var xy = new Point( x, y );
 						if( xy == location )
 							continue;
-						if( model.GetBrushesAt( xy ).Count() != 1 )
-							yield return xy;
-						if( model.GetDoorsEndFrom( xy ).Count() != 0 )
+						if( (model.Cache.Value.GetNumBrushesAt(x,y) != 1) 
+							|| ( model.Cache.Value.GetNumDoorsAt(x,y) != 0)) 
 							yield return xy;
 					}
 				}
@@ -92,7 +91,7 @@ namespace AlienGame
 
 		bool CanWalkAt(Point p)
 		{
-			var content = model.GetFloorContent(p.X, p.Y);
+			var content = model.Cache.Value.GetContentAt(p.X, p.Y);
 			if (content == null) return false;
 			return ((1 << content.Value) & contentmask) != 0;
 		}

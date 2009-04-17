@@ -22,7 +22,10 @@ namespace AlienGame.Tools
 			if (mb == MouseButtons.None)
 				b = m.Brushes.LastOrDefault(a => a.Bounds.Contains(square));
 			else if (b != null)
+			{
 				b.Bounds.Offset(square.X - q.X, square.Y - q.Y);
+				m.Cache.Invalidate();
+			}
 
 			q = square;
 
@@ -36,6 +39,7 @@ namespace AlienGame.Tools
 			if (mb == MouseButtons.Right && b != null)
 			{
 				m.RemoveBrush(b);
+				m.Cache.Invalidate();
 				b = null;
 			}
 

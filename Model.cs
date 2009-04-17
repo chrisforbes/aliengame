@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml;
+using IjwFramework.Types;
 
 namespace AlienGame
 {
@@ -55,6 +56,7 @@ namespace AlienGame
 
 		public void Tick()
 		{
+			var _ = Cache.Value;
 			foreach (var a in actors) a.Tick();
 			SyncActorList();
 		}
@@ -113,9 +115,12 @@ namespace AlienGame
 			w.WriteEndElement();
 		}
 
-		public Model() {}
+		public Model()
+		{
+			Cache = Cached.New(() => new ModelCache(this));
+		}
 
-		public Model(XmlDocument doc)
+		public Model(XmlDocument doc) : this()
 		{
 			// NB: actor loading is different, because the actual type of the resulting object varies.
 
@@ -125,5 +130,7 @@ namespace AlienGame
 
 			rooms = Room.MakeRooms(this);
 		}
+
+		public readonly Cached<ModelCache> Cache;
 	}
 }

@@ -56,6 +56,7 @@ namespace AlienGame.Tools
 			{
 				d = new Door(q, k, 0);
 				m.doors.Add(d);
+				m.Cache.Invalidate();
 			}
 
 			if (mb == MouseButtons.Right)
@@ -63,6 +64,7 @@ namespace AlienGame.Tools
 				if (d != null)
 				{
 					m.doors.Remove(d);
+					m.Cache.Invalidate();
 					d = null;
 				}
 			}

@@ -62,7 +62,7 @@ namespace AlienGame
 			for (var i = 0; i < ClientSize.Width / 40; i++)
 				for (var j = 0; j < ClientSize.Height / 40; j++)
 				{
-					var content = model.GetFloorContent(i, j);
+					var content = model.Cache.Value.GetContentAt(i, j);
 					if (content != null)
 						e.Graphics.FillRectangle(floorBrush[content.Value], new Point(i, j).ToPointRect().SquaresToPixels());
 				}

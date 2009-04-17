@@ -24,7 +24,11 @@ namespace AlienGame.Tools
 		{
 			q = square;
 			if (b == null) return true;
-			if (mb == MouseButtons.Left) b.Bounds = Rectangle.FromLTRB(sq.X, sq.Y, q.X, q.Y).Fix();
+			if (mb == MouseButtons.Left)
+			{
+				b.Bounds = Rectangle.FromLTRB(sq.X, sq.Y, q.X, q.Y).Fix();
+				m.Cache.Invalidate();
+			}
 			return true;
 		}
 
@@ -36,6 +40,7 @@ namespace AlienGame.Tools
 				PrepareBrush(b);
 				sq = q;
 				m.AddBrush(b);
+				m.Cache.Invalidate();
 			}
 			return true;
 		}
