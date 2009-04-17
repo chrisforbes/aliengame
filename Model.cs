@@ -33,9 +33,11 @@ namespace AlienGame
 				&& null == HasDoor(x1, y1, x2, y2);
 		}
 
-		public bool HasFloor(int x, int y)
+		public int? GetFloorContent(int x, int y)
 		{
-			return brushes.Any(b => b.Bounds.Contains(x, y));
+			var b = GetBrushesAt(new Point(x, y)).FirstOrDefault();
+			if (b == null) return null;
+			return b.Content;
 		}
 
 		public Door HasDoor(int x1, int y1, int x2, int y2)

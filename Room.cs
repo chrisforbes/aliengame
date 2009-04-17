@@ -12,6 +12,8 @@ namespace AlienGame
 		readonly Model model;
 		static Random random = new Random();
 
+		public int Content() { return brushes.First().Content; }
+
 		public Room(Model m, Brush firstBrush) { brushes.Add(firstBrush); model = m; }
 		public bool IntersectsWith(Rectangle r)
 		{

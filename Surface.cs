@@ -25,7 +25,8 @@ namespace AlienGame
 		DBrush brushBrush = new SolidBrush(Color.Gray.WithAlpha(128));
 		Pen brushPen = Pens.Silver;
 		Pen wallPen = new Pen(Color.Blue, 3.0f);
-		DBrush floorBrush = new SolidBrush(Color.FromArgb(40, 40, 40));
+		DBrush[] floorBrush = new DBrush[] { new SolidBrush(Color.FromArgb(40, 40, 40)),
+			Brushes.Indigo };
 
 		public Model Model
 		{
@@ -60,8 +61,11 @@ namespace AlienGame
 			// draw the real stuff
 			for (var i = 0; i < ClientSize.Width / 40; i++)
 				for (var j = 0; j < ClientSize.Height / 40; j++)
-					if (model.HasFloor(i, j))
-						e.Graphics.FillRectangle(floorBrush,new Point(i,j).ToPointRect().SquaresToPixels());
+				{
+					var content = model.GetFloorContent(i, j);
+					if (content != null)
+						e.Graphics.FillRectangle(floorBrush[content.Value], new Point(i, j).ToPointRect().SquaresToPixels());
+				}
 
 			for( var i = 0; i < ClientSize.Width / 40; i++ )
 				for (var j = 0; j < ClientSize.Height / 40; j++)
