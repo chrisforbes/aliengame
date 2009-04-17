@@ -14,6 +14,8 @@ namespace AlienGame.Actors
 		[Browsable(true), Category("Guard")]
 		public string Target { get; set; }
 
+		public override int ContentMask { get { return (1 << 0); } }
+
 		public override void Draw(Graphics g)
 		{
 			DrawDirection(g);

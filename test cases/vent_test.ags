@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="4" top="4" right="5" bottom="11" content="0" />
+  <brush left="4" top="10" right="13" bottom="11" content="0" />
+  <brush left="12" top="4" right="13" bottom="11" content="0" />
+  <brush left="4" top="4" right="7" bottom="6" content="0" />
+  <brush left="9" top="4" right="13" bottom="6" content="0" />
+  <brush left="7" top="4" right="9" bottom="5" content="1" />
+  <door x="7" y="4" kind="0" state="0" />
+  <door x="9" y="4" kind="0" state="0" />
+  <actor class="AlienGame.Actors.Marker" x="420" y="180" dir="0" name="" />
+  <actor class="AlienGame.Actors.TestAlien" x="220" y="180" dir="0" name="" />
+  <actor class="AlienGame.Actors.Guard" x="180" y="180" dir="0" name="" target="dest" />
+  <actor class="AlienGame.Actors.Waypoint" x="500" y="180" dir="0" name="dest" target="" />
+</model>

@@ -12,6 +12,7 @@ namespace AlienGame.Actors
 	abstract class Mover : Actor
 	{
 		Stack<Goal> goals = new Stack<Goal>();
+		public virtual int ContentMask { get { return -1; } }
 
 		public void PushGoal(Goal g)
 		{
@@ -72,7 +73,7 @@ namespace AlienGame.Actors
 		public IEnumerable<Order> PlanPathTo(Point to)
 		{
 			var from = Position.ToSquare();
-			var pf = new Pathfinder(m);
+			var pf = new Pathfinder(m, ContentMask);
 
 			var path = pf.FindPath(from, to).ToList();
 			for (int i = path.Count - 1; i >= 0; i--)

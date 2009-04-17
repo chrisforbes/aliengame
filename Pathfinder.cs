@@ -11,9 +11,12 @@ namespace AlienGame
 	class Pathfinder
 	{
 		readonly Model model;
-		public Pathfinder( Model m )
+		int contentmask;
+
+		public Pathfinder( Model m, int mask )
 		{
 			model = m;
+			contentmask = mask;
 		}
 
 		struct QueueNode : IComparable<QueueNode>
@@ -87,9 +90,18 @@ namespace AlienGame
 
 		static IEnumerable<Point> NoPath = new Point[] { };
 
+		bool CanWalkAt(Point p)
+		{
+			var content = model.GetFloorContent(p.X, p.Y);
+			if (content == null) return false;
+			return ((1 << content.Value) & contentmask) != 0;
+		}
+
 		// return a path in reverse order.
 		public IEnumerable<Point> FindPath( Point from, Point to )
 		{
+			if (!CanWalkAt(to)) return NoPath;	// quick out!
+
 			var queue = new PriorityQueue<QueueNode>();
 			var seen = new Dictionary<Point, Pair<double, Point>>();
 
@@ -107,7 +119,7 @@ namespace AlienGame
 				if( k.DistanceSoFar < nodeInfo.First )
 					throw new NotImplementedException( "WTF: found a faster path than mindistance" );
 
-				foreach( var node in FindNeighbours( k.Location, to ) )
+				foreach( var node in FindNeighbours( k.Location, to ).Where( CanWalkAt ))
 				{
 					var dist = Distance( k.Location, node ) + k.DistanceSoFar;
 					seen.MinimizeValue(node, new Pair<double, Point>(dist, k.Location),
