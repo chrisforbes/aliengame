@@ -110,19 +110,24 @@ namespace AlienGame
 				foreach( var node in FindNeighbours( k.Location, to ) )
 				{
 					var dist = Distance( k.Location, node ) + k.DistanceSoFar;
-					if( seen.TryGetValue( node, out nodeInfo ) )
-					{
-						if( nodeInfo.First > dist )
-							seen[ node ] = new Pair<double, Point>( dist, k.Location );
-					}
-					else
-						seen.Add( node, new Pair<double, Point>( dist, k.Location ) );
-
+					seen.MinimizeValue(node, new Pair<double, Point>(dist, k.Location),
+						Pair<double, Point>.AsFirst);
 					queue.Add( new QueueNode( dist, Distance( node, to ), node ) );
 				}
 			}
 
 			return NoPath;
+		}
+	}
+
+	static class AStarExts
+	{
+		public static void MinimizeValue<T, U>(this Dictionary<T, U> dict,
+			T key, U newValue, Func<U,double> f)
+		{
+			U oldValue;
+			if (!dict.TryGetValue(key, out oldValue) || !(f(newValue) >= f(oldValue)))
+				dict[key] = newValue;
 		}
 	}
 }
