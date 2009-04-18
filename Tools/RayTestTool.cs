@@ -70,22 +70,18 @@ namespace AlienGame.Tools
 
 			foreach (var t in tiles)
 			{
-				var i = MakeDirIndex(t.X - prev.X, t.Y - prev.Y);
+				var i = MakeDirMask(Math.Sign(t.X - prev.X), Math.Sign(t.Y - prev.Y));
 				var mask = m.Cache.Value.GetWallMask(prev.X, prev.Y);
-				if (i != null && mask != null)
-					if ((mask.Value & (5 << i)) == (1 << i))
+				if (i != 0 && mask != null)
+					if ((mask.Value & i) != ((mask.Value >> 2) & i))
 						yield return new Pair<Point, Point>(t, prev);
 				prev = t;
 			}
 		}
 
-		static int? MakeDirIndex(int dx, int dy)
+		static int MakeDirMask(int dx, int dy)
 		{
-			if (dx == 1 && dy == 0) return 0;
-			if (dx == 0 && dy == 1) return 1;
-			if (dx == -1 && dy == 0) return 4;
-			if (dx == 0 && dy == -1) return 5;
-			return null;
+			return new int[] { 0x30, 0x20, 0x21, 0x10, 0, 0x1, 0x12, 0x2, 0x3 }[dx + 3 * dy + 4];
 		}
 
 		static IEnumerable<Point> TilesUnderRay(Point a, Point b)
