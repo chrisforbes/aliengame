@@ -25,8 +25,8 @@ namespace AlienGame
 		DBrush brushBrush = new SolidBrush(Color.Gray.WithAlpha(128));
 		Pen brushPen = Pens.Silver;
 		Pen wallPen = new Pen(Color.Blue, 3.0f);
-		DBrush[] floorBrush = new DBrush[] { new SolidBrush(Color.FromArgb(40, 40, 40)),
-			Brushes.Indigo };
+		DBrush[] floorBrush = new DBrush[] { new SolidBrush(Color.FromArgb(40, 40, 40)), Brushes.Indigo };
+		DBrush[] doorBrush = new DBrush[] { Brushes.LimeGreen, Brushes.HotPink };
 
 		public Model Model
 		{
@@ -70,21 +70,22 @@ namespace AlienGame
 			for( var i = 0; i < ClientSize.Width / 40; i++ )
 				for (var j = 0; j < ClientSize.Height / 40; j++)
 				{
-					if (model.HasWall(i, j, i + 1, j))
-						e.Graphics.DrawLine(wallPen, i * 40 + 40, j * 40, i * 40 + 40, j * 40 + 40);
+					var wallMask = model.Cache.Value.GetWallMask(i, j);
+					if (wallMask == null) continue;
 
-					if (model.HasWall(i, j, i, j + 1))
-						e.Graphics.DrawLine(wallPen, i * 40, j * 40 + 40, i * 40 + 40, j * 40 + 40);
+					if ((wallMask & 0x5) == 1)
+						e.Graphics.DrawLine(wallPen, i * 40 + 40, j * 40, i * 40 + 40, j * 40 + 40);
+					if ((wallMask & 0xa) == 2)
+						e.Graphics.DrawLine(wallPen, i * 40, j * 40 + 40, i * 40 + 40, j * 40 + 40);						
 				}
 
 			foreach (var d in model.doors)
-				if (d.State == 0)
-					if (d.Kind == 0)
-						e.Graphics.FillRectangle(Brushes.LimeGreen, d.Position.X * 40 - 3, d.Position.Y * 40,
-							7, 40);
-					else
-						e.Graphics.FillRectangle(Brushes.LimeGreen, d.Position.X * 40, d.Position.Y * 40 - 3,
-							40, 7);
+				if (d.Kind == 0)
+					e.Graphics.FillRectangle(doorBrush[d.State], d.Position.X * 40 - 3, d.Position.Y * 40,
+						7, 40);
+				else
+					e.Graphics.FillRectangle(doorBrush[d.State], d.Position.X * 40, d.Position.Y * 40 - 3,
+						40, 7);
 
 			if (0 != (options & RenderOptions.Brushes))
 				foreach (var b in model.Brushes)

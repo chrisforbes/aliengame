@@ -31,7 +31,7 @@ namespace AlienGame.Actors
 		public static Goal WalkTo(Point p)
 		{
 			return new Goal("Walk",
-				a => { if (a.Position.ToSquare() == p) a.PopGoal(); },
+				a => { if (a.Position == p.SquareToCenter()) a.PopGoal(); },
 				a => a.SetOrders(a.PlanPathTo(p)));
 		}
 
