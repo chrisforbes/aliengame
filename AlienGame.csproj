@@ -113,6 +113,7 @@
     <Compile Include="Room.cs" />
     <Compile Include="Tools\EditActorTool.cs" />
     <Compile Include="Tools\MoveBrushTool.cs" />
+    <Compile Include="Tools\RayTestTool.cs" />
     <Compile Include="Tools\SimulateTool.cs" />
     <Compile Include="Surface.cs">
       <SubType>Component</SubType>
