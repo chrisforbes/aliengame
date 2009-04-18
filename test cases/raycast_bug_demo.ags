@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="3" top="2" right="6" bottom="4" content="0" />
+  <brush left="6" top="4" right="9" bottom="6" content="0" />
+  <actor class="AlienGame.Actors.Marker" x="340" y="220" dir="0" name="" />
+  <actor class="AlienGame.Actors.Marker" x="140" y="100" dir="0" name="" />
+</model>
