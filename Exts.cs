@@ -110,5 +110,12 @@ namespace AlienGame
 			return Assembly.GetExecutingAssembly().GetTypes()
 				.Where(t => !t.IsAbstract && u.IsAssignableFrom(t));
 		}
+
+		public static Point Lerp(this float t, Point a, Point b)
+		{
+			return new Point(
+					(int)((1 - t) * a.X + t * b.X),
+					(int)((1 - t) * a.Y + t * b.Y));
+		}
 	}
 }

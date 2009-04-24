@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, bool>;
+	using Order = Func<Mover, bool>;
 
 	class Food : Mover
 	{

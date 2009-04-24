@@ -44,7 +44,7 @@ namespace AlienGame.Tools
 			if (start == null || end == null)
 				return;
 
-			foreach (var t in TilesUnderRay(start.Value.SquareToCenter(), end.Value.SquareToCenter()))
+			foreach (var t in RayCast.TilesUnderRay(start.Value.SquareToCenter(), end.Value.SquareToCenter()))
 				g.DrawRectangle(Pens.Magenta, t.ToPointRect().SquaresToPixels());
 
 			g.DrawRectangle(Pens.LimeGreen, start.Value.ToPointRect().SquaresToPixels());
@@ -52,64 +52,15 @@ namespace AlienGame.Tools
 
 			g.DrawLine(Pens.LimeGreen, start.Value.SquareToCenter(), end.Value.SquareToCenter());
 
-			foreach (var w in WallsUnderRay(start.Value.SquareToCenter(), end.Value.SquareToCenter(), m))
+			foreach (var w in RayCast.WallsUnderRay(start.Value.SquareToCenter(), end.Value.SquareToCenter(), m))
 				DrawCross(g,
-					Lerp(0.5f, w.First.SquareToCenter(), w.Second.SquareToCenter()));
+					(0.5f).Lerp(w.First.SquareToCenter(), w.Second.SquareToCenter()));
 		}
 
 		static void DrawCross(Graphics g, Point p)
 		{
 			g.DrawLine(Pens.Red, p.X - 5, p.Y - 5, p.X + 5, p.Y + 5);
 			g.DrawLine(Pens.Red, p.X - 5, p.Y + 5, p.X + 5, p.Y - 5);
-		}
-
-		static IEnumerable<Pair<Point, Point>> WallsUnderRay(Point a, Point b, Model m)
-		{
-			var tiles = TilesUnderRay(a, b);
-			var prev = a.ToSquare();
-
-			foreach (var t in tiles)
-			{
-				var i = MakeDirMask(Math.Sign(t.X - prev.X), Math.Sign(t.Y - prev.Y));
-				var mask = m.Cache.Value.GetWallMask(prev.X, prev.Y);
-				if (i != 0 && mask != null)
-					if ((mask.Value & i) != ((mask.Value >> 2) & i))
-						yield return new Pair<Point, Point>(t, prev);
-				prev = t;
-			}
-		}
-
-		static int MakeDirMask(int dx, int dy)
-		{
-			return new int[] { 0x30, 0x20, 0x21, 0x10, 0, 0x1, 0x12, 0x2, 0x3 }[dx + 3 * dy + 4];
-		}
-
-		static IEnumerable<Point> TilesUnderRay(Point a, Point b)
-		{
-			if (a == b)
-			{
-				yield return a;
-				yield break;
-			}
-
-			var dist = Math.Sqrt(a.DistanceSqTo(b));
-			var frac = 1.0f / (float)dist;
-
-			var p = a.ToSquare();
-			yield return p;
-			for (var f = 0.0f; f <= 1.0f; f += frac)
-			{
-				var q = Lerp(f,a,b).ToSquare();
-
-				if (p != q) yield return p = q;
-			}
-		}
-
-		static Point Lerp(float t, Point a, Point b)
-		{
-			return new Point(
-					(int)((1 - t) * a.X + t * b.X),
-					(int)((1 - t) * a.Y + t * b.Y));
 		}
 	}
 }

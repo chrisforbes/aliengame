@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Linq;
 using AlienGame.Actors;
+using System.Collections.Generic;
 
 namespace AlienGame
 {
-	using Order = Func<Actor, bool>;
+	using Order = Func<Mover, bool>;
 
 	static class Orders
 	{
@@ -38,6 +39,12 @@ namespace AlienGame
 			};
 		}
 
+		//public static IEnumerable<Order> AimAt(Actor other)
+		//{
+		//    Order reAim = null;
+		//    reAim = a => a.SetOrders( new Order[] { Face( other.
+		//}
+
 		public static Order Walk(Point p, float speed)
 		{
 			float fx = 0, fy = 0;
@@ -64,13 +71,6 @@ namespace AlienGame
 			};
 		}
 
-		static Point Lerp(float t, Point a, Point b)
-		{
-			return new Point(
-				(int)(t * b.X + (1 - t) * a.X),
-				(int)(t * b.Y + (1 - t) * a.Y));
-		}
-
 		public static Order Lunge(Food f, float dt)
 		{
 			Point? original = null;
@@ -82,7 +82,7 @@ namespace AlienGame
 					lerp += dt;
 
 					if (lerp > 1.0f) lerp = 1.0f;
-					a.Position = Lerp(lerp, original.Value, f.Position);
+					a.Position = lerp.Lerp(original.Value, f.Position);
 
 					if (lerp >= 1.0f)
 					{

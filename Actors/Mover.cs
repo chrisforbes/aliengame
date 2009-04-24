@@ -7,7 +7,7 @@ using IjwFramework.Types;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, bool>;
+	using Order = Func<Mover, bool>;
 
 	abstract class Mover : Actor
 	{

@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace AlienGame.Actors
 {
-	using Order = Func<Actor, bool>;
+	using Order = Func<Mover, bool>;
 
 	class Goal
 	{
@@ -97,6 +97,26 @@ namespace AlienGame.Actors
 							if (w != null && a is Guard)
 								(a as Guard).Target = w.Name;	// for the level designer's benefit
 						}
+				});
+		}
+
+		public static Goal Hunt(Actor t)
+		{
+			var isRunning = false;
+			return new Goal("Hunt",
+				a => 
+				{ 
+					// is the target dead?
+					if (!a.m.Actors.Contains(t)) { a.PopGoal(); return; };
+
+					// did we enter/leave visibility?
+					if (a.CanSee(t) ^ isRunning)
+						a.CurrentGoal().MakePlan(a);
+				},
+				a =>
+				{
+					// todo
+					//if (a.CanSee(t))
 				});
 		}
 	}

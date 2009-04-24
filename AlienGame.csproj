@@ -70,6 +70,7 @@
     <Compile Include="PropertiesForm.Designer.cs">
       <DependentUpon>PropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RayCast.cs" />
     <Compile Include="Tools\ActorTool.cs" />
     <Compile Include="Brush.cs" />
     <Compile Include="Tools\CreateBrushTool.cs" />
