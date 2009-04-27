@@ -31,9 +31,13 @@ namespace AlienGame.Actors
 
 		public override void Use(Actor user)
 		{
-			var spawner = m.ActorsAt(Position.ToSquare()).OfType<GuardSpawner>().First();
-			if (spawner == null)
-				throw new NotImplementedException("odd kind of guard");
+			var spawner = m.ActorsAt(Position.ToSquare()).OfType<GuardSpawner>().FirstOrDefault();
+			if( spawner == null )
+			{
+				// something else used us -- most likely an Alarm (with Target == "")
+				return;
+				//throw new NotImplementedException("odd kind of guard");
+			}
 
 			PushGoal(Goal.Use(spawner));
 			PushGoal(Goal.Use(user));

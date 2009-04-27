@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <brush left="2" top="2" right="8" bottom="8" content="0" />
+  <brush left="10" top="4" right="16" bottom="10" content="0" />
+  <brush left="16" top="7" right="18" bottom="8" content="0" />
+  <brush left="18" top="5" right="23" bottom="10" content="0" />
+  <brush left="8" top="6" right="10" bottom="7" content="1" />
+  <brush left="13" top="10" right="14" bottom="17" content="1" />
+  <door x="8" y="6" kind="0" state="0" />
+  <door x="10" y="6" kind="0" state="0" />
+  <door x="13" y="10" kind="1" state="0" />
+  <door x="16" y="7" kind="0" state="0" />
+  <door x="18" y="7" kind="0" state="0" />
+  <actor class="AlienGame.Actors.TestAlien" x="100" y="300" dir="0" name="" />
+  <actor class="AlienGame.Actors.Alarm" x="100" y="100" dir="0" name="" target="" />
+  <actor class="AlienGame.Actors.Alarm" x="620" y="180" dir="0" name="" target="" />
+  <actor class="AlienGame.Actors.GuardSpawner" x="900" y="300" dir="0" name="" numguards="2" maxguards="2" respawnrate="0" />
+  <actor class="AlienGame.Actors.Waypoint" x="580" y="340" dir="0" name="" target="" />
+  <actor class="AlienGame.Actors.Waypoint" x="620" y="180" dir="0" name="" target="" />
+  <actor class="AlienGame.Actors.Food" x="260" y="180" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="460" y="340" dir="0" name="" />
+  <actor class="AlienGame.Actors.Food" x="540" y="660" dir="0" name="" />
+</model>
